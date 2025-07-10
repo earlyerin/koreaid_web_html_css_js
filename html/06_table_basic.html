@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML table constructure</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <caption>
+        우리반 학생들의 정보
+      </caption>
+      <!-- 표 이름 -->
+      <thead>
+        <tr>
+          <th>이름</th>
+          <th>나이</th>
+          <th>지역</th>
+          <!-- th : table head  -->
+        </tr>
+        <!-- tr : table row -->
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>홍길동</td>
+          <td>18</td>
+          <td>강남구</td>
+          <!-- td : table data -->
+        </tr>
+        <tr>
+          <td>김길동</td>
+          <td>20</td>
+          <td>용산구</td>
+        </tr>
+        <tr>
+          <td>김길은</td>
+          <td>23</td>
+          <td>관악구</td>
+        </tr>
+        <tr>
+          <td>김길금</td>
+          <td>30</td>
+          <td>성북구</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td>총 학생 수</td>
+          <td>4명</td>
+          <td>-</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <table>
+      <caption>
+        월별 판매 실적
+      </caption>
+      <thead>
+        <tr>
+          <th>월</th>
+          <th>판매량</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1월</td>
+          <td>100개</td>
+        </tr>
+        <tr>
+          <td>2월</td>
+          <td>200개</td>
+        </tr>
+        <tr>
+          <td>3월</td>
+          <td>300개</td>
+        </tr>
+        <tr>
+          <td>4월</td>
+          <td>400개</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+            <td>총 판매량</td>
+            <td>1100개</td>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>

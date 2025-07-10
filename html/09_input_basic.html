@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML input 태그 기본 타입</title>
+  </head>
+  <body>
+    <h1>HTML input 태그 기본 타입</h1>
+    <!-- 
+    form
+    action="#" : 경로
+    method="post" : 요청 메서드
+    -->
+    <form action="#" method="post">
+      <div>
+        <!-- 
+        input에 대한 label 
+        for="" : input의 id
+        -->
+        <label for="username">이름:</label>
+        <!-- 
+        input 
+        type='type' : 입력 타입
+        name='name' : body의 key 값 역할
+        placeholder='placeholder': 입력에 대한 힌트
+        -->
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="이름을 입력하세요."
+        />
+      </div>
+      <div>
+        <label for="password">비밀번호 :</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호를 입력하세요."
+        />
+      </div>
+      <div>
+        <label for="email">이메일 : </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="이메일을 입력하세요."
+        />
+      </div>
+      <div>
+        <label for="tel">전화번호 : </label>
+        <input
+          type="tel"
+          id="tel"
+          name="tel"
+          placeholder="전화번호를 입력하세요."
+        />
+      </div>
+      <div>
+        <label for="number">수량 : </label>
+        <input
+          type="number"
+          id="number"
+          name="quantity"
+          min="1"
+          max="10"
+          value="1"
+        />
+        <!-- min=최소 max=최대 value=초기값 -->
+      </div>
+      <div>
+        <label for="date">날짜 선택 : </label>
+        <input type="date" id="date" name="date" />
+      </div>
+      <div>
+        <label for="color">색상 선택 : </label>
+        <input type="color" id="color" name="color" value="#ff0000" />
+      </div>
+      <div>
+        <label for="range">볼륨 : </label>
+        <input
+          type="range"
+          id="range"
+          name="range"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </div>
+      <div>
+        <label for="file">파일 선택 : </label>
+        <input type="file" id="file" name="upload_file" />
+      </div>
+
+      <div>
+        <label for="hidden_data">숨겨진 데이터 : </label>
+        <input type="hidden" id="hidden_data" name="data_id" value="12345" />
+      </div>
+
+      <input type="submit" value="제출 버튼" /> <br />
+      <div>
+        <input type="radio" name="gender" />
+        <input type="radio" name="gender" /> <br />
+        <input type="radio" name="fruit" />
+        <input type="radio" name="fruit" />
+        <input type="radio" name="fruit" />
+      </div>
+
+      <input type="checkbox" /> <br />
+
+      <button type="button">기능이 없는 버튼</button> <br />
+      <!-- JavaScipt로 기능 부여 -->
+
+      <button type="submit">정보 제출</button> <br />
+      <button type="reset">초기화</button> <br />
+    </form>
+  </body>
+</html>
