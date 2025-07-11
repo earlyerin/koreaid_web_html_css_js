@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML box structure</title>
+    <style>
+      #container {
+        border: 2px solid black;
+
+        width: 1000px;
+        height: 300px;
+        box-sizing: border-box;
+        /* 
+            실제 width = 1002px (width + border)
+            실제 height = 502px (height + border)
+            => box-sizing : border-box (선을 포함한 크기로 설정) 1000*300
+            */
+        background-color: cornflowerblue;
+
+        /*
+        가로로 놓인 요소 중앙 정렬
+        부모 태그에 작성
+        */
+        display: flex;
+        justify-content: space-around; /* 가로 정렬 */
+        align-items: center; /* 세로 정렬 */
+        /* 
+        center : 중앙에 배치
+        space-around : 여백을 균등하게 분배하여 배치
+        space-between : ㅣ컨테이너 경계에 요소를 
+        */        
+        
+      }
+
+      .box {
+        width: 150px;
+        height: 150px;
+        background-color: beige;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+    </div>
+  </body>
+</html>

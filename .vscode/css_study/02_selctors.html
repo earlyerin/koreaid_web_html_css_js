@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 선택자</title>
+    <style>
+      /*
+      선택자
+      * : 모든 태그
+      #id : 해당 아이디의 태그(하나의 태그)
+      태그명 : 해당 태그들
+      .class : 해당 클래스의 태그(여러개의 태그)
+      태그 > 태그... : 해당 경로에 위치한 태그
+      */
+      * {
+        margin: 0;
+      }
+
+      #main_title {
+        font-size: 40px;
+        color: brown;
+      }
+
+      p {
+        font-size: 18px;
+      }
+
+      .p-class {
+        color: coral;
+      }
+
+      header > p {
+        font-weight: bolder;
+      }
+
+      div > div > h1 {
+        border: 2px dashed tomato;
+      }
+
+      .btn:hover {
+        /* hover : 해당 영역에 커서가 감지되면 스타일 적용 */
+        background-color: chocolate;
+      }
+
+      input {
+        /* 기본적으로 적용되어있는 아웃라인 비활성화*/ 
+        outline: none;
+      }
+
+      input:focus {
+        /* focus : 해당 요소를 선택했을 때 스타일을 적용 */
+        border: 2px solid blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="main_title">css selectors study</h1>
+    <header>
+      <p>이 페이지는 다양한 CSS 선택자를 사용합니다.</p>
+      <p class="p-class">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, enim
+        magnam iure quae vero sit atque, recusandae voluptates maiores deserunt
+        voluptate adipisci exercitationem excepturi labore beatae eos numquam
+        veniam expedita?
+      </p>
+      <p class="p-class">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, enim
+        magnam iure quae vero sit atque, recusandae voluptates maiores deserunt
+        voluptate adipisci exercitationem excepturi labore beatae eos numquam
+        veniam expedita?
+      </p>
+      <p class="p-class">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, enim
+        magnam iure quae vero sit atque, recusandae voluptates maiores deserunt
+        voluptate adipisci exercitationem excepturi labore beatae eos numquam
+        veniam expedita?
+      </p>
+    </header>
+
+    <div>
+      <div>
+        <h1>해당 경로의 태그 스타일 변경</h1>
+      </div>
+    </div>
+
+    <div>
+      <button class="btn">버튼</button>
+    </div>
+
+    <input />
+  </body>
+</html>

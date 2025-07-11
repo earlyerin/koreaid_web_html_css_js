@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 적용 방식</title>
+    <style>
+      p {
+        color: pink; /*색상*/
+        font-size: 20px; /*글자 크기*/
+        border: 2px solid black; /*테두리 설정*/
+        padding: 5px;
+        border-radius: 15px; /*테두리 굴곡*/
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+    스타일 적용 우선순위
+    !important > inline > #id > .class > HTML Tag > Dom structure
+    *!important : 최우선으로 해당 설정을 적용하도록 명시 (지양)
+    -->
+    <!-- 
+    Inline Styling : HTML 요소 내에 style 속성을 작성
+    Internal Style Sheet : HTML 문서 내에 style 태그를 사용하여 스타일 규칙 작성
+    External Style Sheet : .css 파일에 스타일 규칙을 작성, HTML 파일에서 해당 문서 참조
+     -->
+
+    <h1>인라인 스타일</h1>
+    <p
+      style="
+        color: blue;
+        font-weight: lighter;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 20px;
+      "
+    >
+      <!-- 
+        color: blue; = 색상
+        font-weight: lighter; = 글자 굵기
+        border: 1px solid black; = 테두리
+        padding: 10px; = 내부 여백
+        margin: 20px; = 외부 여백
+    -->
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Velit ullam
+      similique fugit nulla saepe consequatur recusandae rem, ipsam obcaecati,
+      voluptate quam provident incidunt porro, et est deserunt mollitia itaque
+      consectetur!
+    </p>
+
+    <hr />
+    <h1>내부 스타일</h1>
+    <p id="text1">
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt omnis
+      atque dolor. Laborum rerum labore, quos, tempora dignissimos quia
+      explicabo minima nesciunt facilis eius, a consequatur autem aliquam
+      suscipit voluptatibus.
+    </p>
+  </body>
+</html>

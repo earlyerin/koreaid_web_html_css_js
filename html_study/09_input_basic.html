@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML input 태그 기본 타입</title>
+    <style>
+      h4,
+      h5 {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <h1>HTML input 태그 기본 타입</h1>
@@ -99,17 +105,26 @@
         <label for="hidden_data">숨겨진 데이터 : </label>
         <input type="hidden" id="hidden_data" name="data_id" value="12345" />
       </div>
+      <hr />
 
-      <input type="submit" value="제출 버튼" /> <br />
+      <h4>체크박스</h4>
       <div>
-        <input type="radio" name="gender" />
-        <input type="radio" name="gender" /> <br />
-        <input type="radio" name="fruit" />
-        <input type="radio" name="fruit" />
-        <input type="radio" name="fruit" />
+        <h5>성별</h5>
+        <!-- radio : 단일 선택 체크박스 -->
+        <input type="radio" name="gender" value="female" />여성
+        <input type="radio" name="gender" value="male" />남성
+      </div>
+      <div>
+        <h5>좋아하는 과일</h5>
+        <!-- checkbox : 다중 선택 체크박스 -->
+        <input type="checkbox" name="fruit" />사과
+        <input type="checkbox" name="fruit" />바나나
+        <input type="checkbox" name="fruit" />수박
       </div>
 
-      <input type="checkbox" /> <br />
+      <hr />
+
+      <input type="submit" value="제출 버튼" /> <br />
 
       <button type="button">기능이 없는 버튼</button> <br />
       <!-- JavaScipt로 기능 부여 -->
