@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lato"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>W3.CSS Template</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.5; /* 단일 텍스트 줄의 높이를 정의 */
+        font-family: Verdana, sans-serif;
+      }
+
+      body {
+        font-family: "Lato", sans-serif;
+        text-align: center;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 10px 0px;
+        font-weight: 400;
+        font-family: "Segoe UI", Arial, sans-serif;
+      }
+
+      h2 {
+        font-size: 30px;
+        letter-spacing: 4px; /* 문자 사이의 여백 */
+      }
+
+      p {
+        display: block; /* 해당 요소는 블록 요소 로 변환, 새 줄에서 시작하여 전체 너비를 차지 */
+        margin: 15px 0px;
+      }
+
+      b {
+        font-weight: bolder;
+      }
+
+      header {
+        position: fixed; /* 요소의 일반적인 문서에서 흐름 제거, 뷰포트의 초기 컨테이닝 블록 기준으로 배치 */
+        background-color: black;
+        width: 100%;
+        /* vw(view width) : 전체 화면의 너비만큼 가로길이를 지정하는 상대단위(스크롤바 너비 포함) */
+        z-index: 10; /* position 속성의 요소와 하위 요소까지 Z축 순서를 지정 (가장 위에 오도록 배치) */
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+          0 2px 10px 0 rgba(0, 0, 0, 0.12);
+        /* 
+        box-shadow : 그림자 속성
+        수평(오른쪽: 양, 왼쪽: 음) / 수직(위쪽: 음, 아래쪽 : 양) / 블러 정도 / 확산 정도 / 색깔,투명도 
+        */
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #menu-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .bar-item {
+        padding: 12px 24px;
+        color: #fff;
+      }
+
+      .bar-item:hover {
+        background-color: gainsboro;
+        color: #000;
+      }
+
+      #search-icon:hover {
+        background-color: #f44336;
+        color: #fff;
+      }
+
+      main {
+        width: 100%;
+      }
+
+      #img-container {
+        width: 100%;
+        position: relative; /* 상대 위치 지정 요소*/
+      }
+
+      #city-img {
+        width: 100%;
+        margin-top: 46px;
+      }
+
+      #img-comment {
+        padding: 36px 16px;
+        box-sizing: border-box;
+        /* 
+        box-sizing
+        요소의 너비와 높이를 계산하는 방법을 지정 
+        border-box : 요소의 안쪽 여백과 테두리까지 크기로 포함하여 박스 크기 지정
+        content-box : 요소의 크기 만큼 박스 크기 지정
+        */
+        position: absolute; /* 가장 가까운 위치 지정 조상 요소에 대해 상대적으로 배치 */
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        color: #fff;
+      }
+
+      #img-comment > h3 {
+        font-size: 24px;
+        letter-spacing: normal;
+      }
+
+      .content-container {
+        padding: 64px 16px;
+        max-width: 800px;
+        width: 768px;
+        margin: 0 auto; /* 요소 중앙 정렬 */
+      }
+
+      .text-opacity {
+        opacity: 0.6; /* 반투명 */
+        /* 
+        요소의 불투명한 정도 지정
+        0 : 완전히 불투명
+        1 : 완전히 투명;
+        */
+      }
+
+      .text-justify {
+        text-align: justify; /* 요소와 동일한 너비로 문장 정렬 */
+      }
+
+      #band-member-box {
+        padding: 32px 0px;
+        display: flex;
+      }
+
+      .band-member-card {
+        width: 33.33333%;
+      }
+
+      .band-member-img {
+        border-radius: 4px; /* 테두리 둥글림 */
+        margin-bottom: 16px;
+        width: 60%;
+      }
+
+      #tour-plan-container {
+        background-color: #000;
+        color: #fff;
+      }
+
+      #reservation-status {
+        width: 100%;
+        background-color: #fff;
+        color: #757575;
+        text-align: left;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .month {
+        box-sizing: border-box;
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+      }
+
+      .month:nth-child(3) {
+        justify-content: space-between;
+      }
+
+      .status {
+        padding: 0px 8px;
+        color: #fff;
+      }
+
+      .sold-out {
+        margin-left: 16px;
+        background-color: #f44336;
+      }
+
+      .number-of-seats {
+        margin-right: 16px;
+        background-color: black;
+        border-radius: 50%;
+      }
+
+      #ticket-box {
+        margin: 0 -16px; /* 내부 요소의 내부여백 값 만큼 외부여백 값 감축 */
+        padding: 32px 8px;
+        display: flex;
+      }
+
+      .ticket-card {
+        padding: 0px 8px;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .ticket-card > img {
+        width: 100%;
+        object-fit: cover;
+        /* 
+        object-fit : 요소의 크기 조절 속성
+        cover : 비율을 유지한 상태로 여백을 확대해서 채운 배치 
+        contain : 비율은 유지하나 여백이 있는 배치
+        fill : 지정된 가로,세로 크기로 배치 (비율 깨짐)
+         */
+      }
+
+      .ticket-text-box {
+        padding: 0px 16px;
+        text-align: left;
+        background-color: #fff;
+        color: #000;
+      }
+
+      .ticket-text-box > button {
+        margin-bottom: 16px;
+        padding: 10px 16px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        font-size: 14.8px;
+      }
+
+      .ticket-text-box > button:hover {
+        background-color: gainsboro;
+        color: #000;
+      }
+
+      #contact-box {
+        padding: 32px 0px;
+        display: flex;
+      }
+
+      #contact-info {
+        margin-bottom: 16px;
+        width: 49.99999%;
+        font-size: 18px;
+        text-align: left;
+      }
+
+      #contact-info > p {
+        margin: 0;
+      }
+
+      #contact-info > p > i {
+        width: 30px;
+      }
+
+      #send-message {
+        width: 49.99999%;
+      }
+
+      #input-info-box {
+        margin: 0px -16px 8px -16px;
+        padding: 0px 8px;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      #input-text-box > input {
+        width: 100%;
+      }
+
+      input {
+        box-sizing: border-box;
+        padding: 10px 8px;
+        border: 1px solid #ccc;
+      }
+
+      #send-message > button {
+        float: right;
+        margin: 16px 0px;
+        padding: 12px 16px;
+        border: none;
+        background-color: #000;
+        color: #fff;
+      }
+
+      #send-message > button:hover {
+        background-color: gainsboro;
+        color: #000;
+      }
+
+      #map-containe {
+        width: 100%;
+      }
+
+      #map-img {
+        width: 100%;
+        object-fit: cover;
+      }
+
+      footer {
+        width: 100%;
+        padding: 64px 0px;
+        font-size: 24px;
+        background-color: #f1f1f1;
+      }
+
+      footer > p {
+        margin: 15px 0px;
+        font-size: 15px;
+      }
+
+      footer > p > a {
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div id="menu-container">
+          <div class="bar-item">HOME</div>
+          <div class="bar-item">BAND</div>
+          <div class="bar-item">TOUR</div>
+          <div class="bar-item">CONTACT</div>
+          <div class="bar-item">
+            MORE
+            <i class="fa fa-caret-down"></i>
+          </div>
+        </div>
+        <!-- <div id="dropdown-content">
+          <div class="more-bar-item">Merchandise</div>
+          <div class="more-bar-item">Extras</div>
+          <div class="more-bar-item">Media</div>
+        </div> -->
+
+        <div class="bar-item" id="search-icon">
+          <i class="fa fa-search"></i>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div id="img-container">
+        <img
+          id="city-img"
+          src="https://www.w3schools.com/w3images/la.jpg"
+          alt="Los Angeles"
+        />
+        <div id="img-comment">
+          <h3>Los Angeles</h3>
+          <p><b>We had the best time playing at Venice Beach!</b></p>
+        </div>
+      </div>
+      <div class="content-container">
+        <h2>THE BAND</h2>
+        <p class="text-opacity">
+          <em>We love music</em>
+        </p>
+        <p class="text-justify">
+          We have created a fictional band website. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est
+          laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+          nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+        </p>
+        <div id="band-member-box">
+          <div class="band-member-card">
+            <p>Name</p>
+            <img
+              class="band-member-img"
+              src="https://www.w3schools.com/w3images/bandmember.jpg"
+              alt="member"
+              width="154"
+              height="154"
+            />
+          </div>
+          <div class="band-member-card">
+            <p>Name</p>
+            <img
+              class="band-member-img"
+              src="https://www.w3schools.com/w3images/bandmember.jpg"
+              alt="member"
+              width="154"
+              height="154"
+            />
+          </div>
+          <div class="band-member-card">
+            <p>Name</p>
+            <img
+              class="band-member-img"
+              src="https://www.w3schools.com/w3images/bandmember.jpg"
+              alt="member"
+              width="154"
+              height="154"
+            />
+          </div>
+        </div>
+      </div>
+      <div id="tour-plan-container">
+        <div class="content-container">
+          <h2>TOUR DATES</h2>
+          <p class="text-opacity"><em>Remember to book your tickets!</em></p>
+          <br />
+          <ul id="reservation-status">
+            <li class="month">
+              September
+              <span class="status sold-out">Sold out</span>
+            </li>
+            <li class="month">
+              October
+              <span class="status sold-out">Sold out</span>
+            </li>
+            <li class="month">
+              November
+              <span class="status number-of-seats">3</span>
+            </li>
+          </ul>
+          <div id="ticket-box">
+            <div class="ticket-card">
+              <img
+                src="https://www.w3schools.com/w3images/newyork.jpg"
+                alt="New York"
+              />
+              <div class="ticket-text-box">
+                <p><b>New York</b></p>
+                <p class="text-opacity">Fri 27 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button>Buy Tickets</button>
+              </div>
+            </div>
+            <div class="ticket-card">
+              <img
+                src="https://www.w3schools.com/w3images/paris.jpg"
+                alt="Paris"
+              />
+              <div class="ticket-text-box">
+                <p><b>Paris</b></p>
+                <p class="text-opacity">Sat 28 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button>Buy Tickets</button>
+              </div>
+            </div>
+            <div class="ticket-card">
+              <img
+                src="https://www.w3schools.com/w3images/sanfran.jpg"
+                alt="San Francisco"
+              />
+              <div class="ticket-text-box">
+                <p><b>San Francisco</b></p>
+                <p class="text-opacity">Sun 29 Nov 2016</p>
+                <p>Praesent tincidunt sed tellus ut rutrum sed vitae justo.</p>
+                <button>Buy Tickets</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-container">
+        <h2>CONTECT</h2>
+        <p class="text-opacity"><em>Fan? Drop a note!</em></p>
+        <div id="contact-box">
+          <div id="contact-info">
+            <p><i class="fa fa-map-marker"></i> Chicago, US</p>
+            <p><i class="fa fa-phone"></i> Phone: +00 151515</p>
+            <p><i class="fa fa-envelope"></i> Email: mail@mail.com</p>
+          </div>
+          <div id="send-message">
+            <form method="post" action="#">
+              <div id="input-info-box">
+                <input type="text" name="name" placeholder="Name" />
+                <input type="email" name="email" placeholder="Email" />
+              </div>
+              <div id="input-text-box">
+                <input type="text" name="message" placeholder="Message" />
+              </div>
+            </form>
+            <button type="submit">SEND</button>
+          </div>
+        </div>
+      </div>
+      <div id="map-container">
+        <img id="map-img" src="https://www.w3schools.com/w3images/map.jpg" />
+      </div>
+    </main>
+    <footer class="text-opacity">
+      <i class="fa fa-facebook-official w3-hover-opacity"></i>
+      <i class="fa fa-instagram w3-hover-opacity"></i>
+      <i class="fa fa-snapchat w3-hover-opacity"></i>
+      <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+      <i class="fa fa-twitter w3-hover-opacity"></i>
+      <i class="fa fa-linkedin w3-hover-opacity"></i>
+      <p>
+        Powered by
+        <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+          >w3.css</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>
