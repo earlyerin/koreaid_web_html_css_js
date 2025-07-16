@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS position</title>
+    <style>
+      body {
+        background-color: black;
+      }
+
+      main {
+        display: flex;
+        height: 100vw;
+      }
+
+      .container {
+        width: 260px;
+        height: 300px;
+        background-color: tomato;
+        margin-right: 10px;
+        overflow: auto; /* 하위 요소의 오버플로우 발생 시 스크롤 배치 */
+      }
+
+      div {
+        width: 160px;
+        height: 100px;
+        line-height: 100px; /* 문자 세로폭 지정 */
+        border: 1px solid yellow;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+      .background-opacity {
+        opacity: 0.8; /* 투명도 */
+      }
+      /* 
+      position: static (기본값)
+      요소를 일반적인 흐름에 따라 배치하며,
+      */
+
+      #relative {
+        background-color: aquamarine;
+        /*
+         position: relative
+         요소를 일반적인 흐름에 따라 배치하며, 해당 요소의 본래 위치 기준으로 이동
+         top, left, right, bottom로 상대 위치(오프셋)값 지정
+         다른 요소와 겹칠 경우 쌓임 맥락 생성
+         */
+        position: relative;
+        top: 28px;
+        left: 28px;
+      }
+
+      #parent-absolute {
+        position: relative;
+      }
+
+      #absolute {
+        background-color: beige;
+        /*
+         position: absolute
+         요소를 일반적인 문서 흐름에서 제거하며, 해당 요소의 상위 요소 기준으로 이동
+         top, left, right, bottom로 상위 요소에 대해 상대적으로 배치
+         (상위 태그에 position을 명시하지 않을 경우, 즉 position:static인 경우 뷰포트 기준으로 배치)
+         다른 요소와 겹칠 경우 쌓임 맥락 생성
+         */
+        position: absolute;
+        bottom: 10px;
+        transform: translate(30%, 0%);
+        /* 
+        transform: translate(-%, -%)
+        해당 요소의 왼쪽 위 꼭짓점을 기준으로 해당 요소의 크기에 대한 (x비율,y비율) 만큼 이동
+        x => 양수:오른쪽, 음수:왼쪽
+        y => 양수:아래쪽, 음수:위쪽
+         */
+      }
+
+      #fixed {
+        background-color: aliceblue;
+        /*
+         position: fixed
+         해당 요소를 일반적인 문서 흐름에서 제거하며, 
+         (상위 태그에 transform, perspective, filter 속성 중 어느 하나라도 none이 아니라면) 뷰포트 기준으로 고정
+         top, left, right, bottom로 위치 지정
+         다른 요소와 겹칠 경우 쌓임 맥락 생성
+         */
+        position: fixed;
+        top: 0;
+        right: 500px;
+      }
+
+      #parent-sticky {
+        overflow: visible;
+      }
+
+      #sticky {
+        background-color: blueviolet;
+        /*
+         position: sticky
+         요소를 일반적인 흐름에 따라 배치하며, 
+         스크롤이 가능한, 가장 가까운 상위 요소 기준으로 배치
+         top, left, right, bottom로 상위 요소에 대해 상대 위치(오프셋)값 지정
+         다른 요소와 겹칠 경우 쌓임 맥락 생성
+         */
+        position: sticky;
+        left: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div>position: static;</div>
+        <div id="relative" class="background-opacity">position: relative;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+      </div>
+      <div id="parent-absolute" class="container">
+        <div>position: static;</div>
+        <div id="absolute" class="background-opacity">position: absolute;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+      </div>
+      <div id="parent-sticky" class="container">
+        <div id="sticky" class="background-opacity">position: sticky;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+        <div>position: static;</div>
+      </div>
+      <div id="fixed" class="background-opacity">position: fixed;</div>
+    </main>
+    <footer>
+      <div style="color: white">is fixed?</div>
+    </footer>
+  </body>
+</html>
