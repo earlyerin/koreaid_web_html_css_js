@@ -11,8 +11,13 @@
         height: 1500px;
       }
 
-      #sticky {
+      div {
         background-color: blueviolet;
+        width: 200px;
+        height: 200px;
+      }
+
+      #sticky {
         /*
          position: sticky
          요소를 일반적인 흐름에 따라 배치하며, 
@@ -22,10 +27,15 @@
          */
         position: sticky;
         left: 28px;
+        top: 28px;
       }
     </style>
   </head>
   <body>
+    <div>position: static;</div>
     <div id="sticky">position: sticky;</div>
+    <div>position: static;</div>
+    <div>position: static;</div>
+    <div>position: static;</div>
   </body>
 </html>
