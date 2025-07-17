@@ -1,11 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS display</title>
+    <style>
+      /* 
+        display-outside(inline/box/inline-box/none)
+        => 요소를 둘러싼 레이아웃에서 해당 요소의 배치 설정
+        display-inside(flex/grid/table)
+        => 요소 내부의 자식 요소의 정렬 방법 설정
+        */
+      body {
+        line-height: 100px;
+      }
+
+      header {
+        width: 100%;
+        background-color: gainsboro;
+      }
+
+      div {
+        font-size: 20px;
+      }
+
+      .first-element {
+        background-color: bisque;
+      }
+      .second-element {
+        background-color: yellow;
+      }
+      .third-element {
+        background-color: cadetblue;
+      }
+
+      .inline {
+        /* 
+            display: inline (display-outside)
+            - span태그, a태그, b태그, i태그, img태그 등의 기본값
+            - 줄바꿈 없이 한줄에 요소들을 배치
+            - 해당 요소의 크기 지정 불가
+            - 문장이나 글자에 효과를 주기 위해 설정
+            */
+        display: inline;
+        background-color: aqua;
+
+        /* 크기 적용X */
+        width: 100px;
+        height: 100px;
+
+        font-weight: bolder;
+      }
+
+      .block {
+        /* 
+        display: box (display-outside)
+        - div태그, h1~h6태그, p태그, li태그, form태그, header-main-footer태그, section 태그 등의 기본값         
+        - 상위 요소의 가로 크기를 모두 차지하며, 크기 지정 가능
+        - 크기를 지정하더라도 각 요소는 항상 줄바꿈되어 배치
+        */
+        display: block;
+        background-color: aqua;
+
+        width: 300px;
+        height: 50px;
+        margin: 5px;
+
+        line-height: 50px;
+        color: black;
+        text-decoration: none;
+      }
+
+      .inline-block {
+        /* 
+        display: inline-block (display-outside)
+        - 요소 자체는 inline속성처럼 배치(줄바꿈 없이 한줄에 요소들을 배치)
+        - 요소 내부에서는 block속성처럼 크기 지정 가능
+        */
+        display: inline-block;
+
+        width: 300px;
+        height: 100px;
+        padding: 10px 10px;
+
+        text-align: center;
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <h2>CSS display</h2>
+    </header>
+    <main id="main">
+      <div>
+        <span class="first-element">fundamental inline text</span>
+        <span class="second-element">fundamental inline text</span>
+        <span class="third-element">fundamental inline text</span>
+        inline text
+        <!-- 기본값이 box인 div태그에 inline속성을 설정하여 한 줄에 배치-->
+        <div class="inline">div inline text</div>
+        <div class="inline">div inline text</div>
+        <div class="inline">div inline text</div>
+        inline text
+      </div>
+      <hr />
+      <div>
+        <div class="first-element">fundamental block text</div>
+        <div class="second-element">fundamental block text</div>
+        <div class="third-element">fundamental block text</div>
+        <!-- 기본값이 inline인 a태그에 box속성을 설정하여 줄바꿈된 배치 -->
+        <a class="block" href="#header">CLICK: GO TO HEADER</a>
+        <a class="block" href="#main">CLICK: GO TO MAIN</a>
+        <a class="block" href="#footer">CLICK: GO TO FOOTER</a>
+      </div>
+      <hr />
+      <div>
+        <div class="inline-block first-element">inline-block text</div>
+        <div class="inline-block second-element">inline-block text</div>
+        <div class="inline-block third-element">inline-block text</div>
+      </div>
+
+      <div id="flex"></div>
+      <div id="grid"></div>
+      <div id="table"></div>
+    </main>
+    <footer id="footer"></footer>
+  </body>
 </html>
