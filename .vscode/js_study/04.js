@@ -66,7 +66,7 @@ console.log(students.find((s) => s.name === "name3"));
 //필터
 console.log(students.filter((s) => s.age === 19));
 
-//
+//적용
 console.log((student) => {
   if (student.age === 19) {
     return {
