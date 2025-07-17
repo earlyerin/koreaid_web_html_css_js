@@ -3,77 +3,270 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>CSS display</title>
     <style>
       /* 
        display-inside(flex/grid/table)
        => 요소 내부의 자식 요소의 정렬 방법 설정
        */
 
+      header,
+      footer {
+        width: 100%;
+        background-color: gainsboro;
+      }
+
+      div {
+        font-size: 18px;
+        margin: 5px;
+      }
+
+      .first-element {
+        background-color: bisque;
+        width: 100px;
+        height: 50px;
+      }
+      .second-element {
+        background-color: yellow;
+      }
+      .third-element {
+        background-color: cadetblue;
+      }
+
       /* 
        display: flex (display-inside)
        - 자식요소에 대해 1차원으로 정렬
        - flex container 속성(부모 속성)
-         flex-direction
-         flex-wrap, justify-content
-         align-items
-         align-center
+         flex-direction : 부모 요소의 주축과 자식 요소의 흐름 방향을 설정
+                         row: 주축-가로, 방향(좌=>우)
+                         row-reverse:  주축-가로, 방향(우=>좌)
+                         column: 주축-세로, 방향(좌=>우)
+                         column-reverse:  주축-세로, 방향(우=>좌)
+         flex-wrap :
+         justify-content : 자식 요소가 가로로 나열되면 수평 정렬, 세로로 나열되면 수직 정렬
+                           flex-start: 주축의 시작부분을 기준으로 정렬(기본값)
+                           center: 주축의 중앙을 기준으로 정렬
+                           flex-end: 주축의 끝부분을 기준으로 정렬
+                           space-aroud: 주축을 기준으로 일정한 간격을 둔 정렬
+                           space-between: 첫 요소와 마지막 요소를 시작과 끝 부분에 정렬, 나머지는 일정한 간격을 둔 정렬
+                        
+         align-items : 자식 요소가 가로로 나열되면 수직 정렬, 세로로 나열되면 수평 정렬
+                      stretch: 부모 요소의 크기만큼 채움(기본값)
+                      flex-start: 교차축의 시작부분을 기준으로 정렬
+                      center: 교차축으로부터 요소의 중앙을 기준으로 정렬
+                      baseline: 글꼴의 기준선을 기준으로 정렬
+                      flex-end: 교차축으로부터 요소의 끝부분을 기준으로 정렬
+         align-centent : 
        - flex item 속성(자식 속성)
-         flex : flex-grow, flex-shrink, flex-basis 값 설정(양의 정수, auto, content, none)
+         flex : flex-grow, flex-shrink, flex-basis 값 설정(양의 정수(1), auto, none)
          flex-grow : 부모요소의 크기보다 작을 때 부모 크기를 채우도록 설정
+                    =>해당 속성 활성화 시 가로정렬:가로 크기 지정 불가, 세로 정렬:세로크기 지정 불가)
+                    => flex-basis: auto 인 경우에는 크기 지정 시 비율 조절에 반영
          flex-shrink : 부모요소의 크기보다 클 때 부모 크기에 맞추도록 설정
-         flex-basis : 자식요소의 크기 고정값 설정(auto일 경우 각각의 자식요소들의 내용 크기에 맞춰짐)
-         order
+         flex-basis : 자식요소의 크기 고정값 설정
+                      => auto일 경우 각각의 자식요소들의 내용 크기에 맞춰짐
        */
       .flex-horizontal-align-container {
-        background-color: black;
+        background-color: gainsboro;
+        border: 1px solid black;
+
         display: flex;
-        height: 1000px;
+
         text-align: center;
+        height: 110px;
       }
 
       .flex-vertical-align-container {
+        background-color: gainsboro;
+        border: 1px solid black;
+
         display: flex;
         flex-direction: column;
-      }
 
-      .flex-initial {
+        text-align: center;
+        width: 500px;
+        height: 500px;
+      }
+      /* 
+      .flex-none {
         flex-grow: 0;
-        flex-shrink: 1;
+        flex-shrink: 0;
         flex-basis: auto;
       }
+    */
 
+      /* 각 요소의 내용 크기에 따라 비율 분배, 부모요소에 채움 */
       .flex-auto {
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: auto;
       }
 
-      .flex-none {
+      /* 각 요소 내용 크기에 맞는 크기 지정*/
+      .flex-initial {
         flex-grow: 0;
-        flex-shrink: 0;
+        flex-shrink: 1;
         flex-basis: auto;
       }
 
+      /* 각 요소의 크기 일정,부모요소에 채움 */
       .flex-positive-integer {
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: 0;
       }
+
+      .align-content {
+        line-height: 100px;
+        background-color: rosybrown;
+      }
     </style>
   </head>
   <body>
-    <div>
-      <p style="font-weight: bolder">flex-horizontal-align</p>
-      <p>flex-initial</p>
-      <div id="flex-horizontal-align-container">
-        <div class="flex-initial first-element">flex-grow: 0;</div>
-        <div class="flex-initial second-element">flex-shrink: 1;</div>
-        <div class="flex-initial third-element">flex-basis: auto;</div>
+    <main>
+      <div>
+        <h1>flex : flex-grow, flex-shrink, flex-basis</h1>
+        <div class="flex-horizontal-align-container">
+          <div class="flex-auto first-element">flex-auto</div>
+          <div class="flex-auto second-element">flex-horizontal-align</div>
+          <div class="flex-auto third-element">
+            flex-grow: 1; flex-shrink: 1; flex-basis: auto;
+          </div>
+        </div>
+        <div class="flex-horizontal-align-container">
+          <div class="flex-initial first-element">flex-initial</div>
+          <div class="flex-initial second-element">
+            flex-grow: 0; flex-shrink: 1; flex-basis: auto;
+          </div>
+          <div class="flex-initial third-element">element</div>
+        </div>
+        <div class="flex-horizontal-align-container">
+          <div class="flex-positive-integer first-element">
+            flex-positive-integer
+          </div>
+          <div class="flex-positive-integer second-element">
+            flex-grow: 1; flex-shrink: 1; flex-basis: 0;
+          </div>
+          <div class="flex-positive-integer third-element">element</div>
+        </div>
       </div>
-      <div id="flex-vertical-align-container"></div>
-    </div>
-    <div id="grid"></div>
-    <div id="table"></div>
+      <div style="display: flex">
+        <div class="flex-vertical-align-container">
+          <div class="flex-auto first-element">flex-auto</div>
+          <div class="flex-auto second-element">flex-vertical-align</div>
+          <div class="flex-auto third-element">
+            flex-grow: 1; flex-shrink: 1; flex-basis: auto;
+          </div>
+        </div>
+        <div class="flex-vertical-align-container">
+          <div class="flex-initial first-element">flex-initial</div>
+          <div class="flex-initial second-element">
+            flex-grow: 0; flex-shrink: 1; flex-basis: auto;
+          </div>
+          <div class="flex-initial third-element">element</div>
+        </div>
+        <div class="flex-vertical-align-container">
+          <div class="flex-positive-integer first-element">
+            flex-positive-integer
+          </div>
+          <div class="flex-positive-integer second-element">
+            flex-grow: 1; flex-shrink: 1; flex-basis: 0;
+          </div>
+          <div class="flex-positive-integer third-element">element</div>
+        </div>
+      </div>
+      <div>
+        <h1>justify-content</h1>
+        <div
+          class="flex-horizontal-align-container"
+          style="justify-content: center; align-items: center"
+        >
+          <div class="align-content">center</div>
+          <div class="align-content">center</div>
+          <div class="align-content">center</div>
+        </div>
+        <div
+          class="flex-horizontal-align-container"
+          style="justify-content: flex-end; align-items: center"
+        >
+          <div class="align-content">flex-end</div>
+          <div class="align-content">flex-end</div>
+          <div class="align-content">flex-end</div>
+        </div>
+        <div
+          class="flex-horizontal-align-container"
+          style="justify-content: space-around; align-items: center"
+        >
+          <div class="align-content">space-around</div>
+          <div class="align-content">space-around</div>
+          <div class="align-content">space-around</div>
+        </div>
+        <div
+          class="flex-horizontal-align-container"
+          style="justify-content: space-between; align-items: center"
+        >
+          <div class="align-content">space-between</div>
+          <div class="align-content">space-between</div>
+          <div class="align-content">space-between</div>
+        </div>
+      </div>
+      <h1>align-items</h1>
+      <br />
+      <div>
+        <div
+          class="flex-horizontal-align-container"
+          style="justify-content: center; align-items: baseline; height: 300px"
+        >
+          <div
+            class="align-content"
+            style="line-height: 100px; padding-top: 10px"
+          >
+            basellllline
+          </div>
+          <div
+            class="align-content"
+            style="line-height: 200px; padding-top: 20px"
+          >
+            baselineeeeeeeeee
+          </div>
+          <div
+            class="align-content"
+            style="line-height: 150px; margin-top: 15px"
+          >
+            baseline
+          </div>
+        </div>
+      </div>
+      <div style="display: flex">
+        <div
+          class="flex-vertical-align-container"
+          style="justify-content: center; align-items: flex-start"
+        >
+          <div class="align-content">flexxxxxx-start</div>
+          <div class="align-content">flex-starrrrrrrrrt</div>
+          <div class="align-content">flex-start</div>
+        </div>
+        <div
+          class="flex-vertical-align-container"
+          style="justify-content: center; align-items: center"
+        >
+          <div class="align-content">centerrrr</div>
+          <div class="align-content">cccccccccenter</div>
+          <div class="align-content">center</div>
+        </div>
+
+        <div
+          class="flex-vertical-align-container"
+          style="justify-content: center; align-items: flex-end"
+        >
+          <div class="align-content">fllllex-end</div>
+          <div class="align-content">flex-eeeeeeend</div>
+          <div class="align-content">flex-end</div>
+        </div>
+      </div>
+
+      <div id="grid"></div>
+      <div id="table"></div>
+    </main>
   </body>
 </html>
