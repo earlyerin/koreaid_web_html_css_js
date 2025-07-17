@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /* 
+       display-inside(flex/grid/table)
+       => 요소 내부의 자식 요소의 정렬 방법 설정
+       */
+
+      /* 
+       display: flex (display-inside)
+       - 자식요소에 대해 1차원으로 정렬
+       - flex container 속성(부모 속성)
+         flex-direction
+         flex-wrap, justify-content
+         align-items
+         align-center
+       - flex item 속성(자식 속성)
+         flex : flex-grow, flex-shrink, flex-basis 값 설정(양의 정수, auto, content, none)
+         flex-grow : 부모요소의 크기보다 작을 때 부모 크기를 채우도록 설정
+         flex-shrink : 부모요소의 크기보다 클 때 부모 크기에 맞추도록 설정
+         flex-basis : 자식요소의 크기 고정값 설정(auto일 경우 각각의 자식요소들의 내용 크기에 맞춰짐)
+         order
+       */
+      .flex-horizontal-align-container {
+        background-color: black;
+        display: flex;
+        height: 1000px;
+        text-align: center;
+      }
+
+      .flex-vertical-align-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .flex-initial {
+        flex-grow: 0;
+        flex-shrink: 1;
+        flex-basis: auto;
+      }
+
+      .flex-auto {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+      }
+
+      .flex-none {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+      }
+
+      .flex-positive-integer {
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p style="font-weight: bolder">flex-horizontal-align</p>
+      <p>flex-initial</p>
+      <div id="flex-horizontal-align-container">
+        <div class="flex-initial first-element">flex-grow: 0;</div>
+        <div class="flex-initial second-element">flex-shrink: 1;</div>
+        <div class="flex-initial third-element">flex-basis: auto;</div>
+      </div>
+      <div id="flex-vertical-align-container"></div>
+    </div>
+    <div id="grid"></div>
+    <div id="table"></div>
+  </body>
+</html>
