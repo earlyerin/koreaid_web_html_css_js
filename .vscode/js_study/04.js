@@ -40,6 +40,42 @@ const findfx = (n) => n == "name6";
 const foundName = names.find(findfx);
 console.log("find:", foundName);
 
+//includes : 값 포함 여부
+console.log(names.includes("name6"));
+
+const numbers = [1, 2, 3, 4, 5];
+//filter : 필터링
+console.log(numbers.filter((n) => n % 2 === 0));
+const odd = numbers.filter((n) => n % 2 != 0);
+console.log(odd);
+
+//map : 배열의 모든 요소에 대해 주어진 함수에 적용한 결과로 배열을 반환
+console.log(numbers.map((n) => n * 10));
+
+//***** 객체 배열 *****
+const students = [
+  { name: "name1", age: 19 },
+  { name: "name2", age: 18 },
+  { name: "name3", age: 15 },
+  { name: "name4", age: 17 },
+  { name: "name5", age: 19 },
+];
+//검색
+console.log(students.find((s) => s.name === "name3"));
+
+//필터
+console.log(students.filter((s) => s.age === 19));
+
+//
+console.log((student) => {
+  if (student.age === 19) {
+    return {
+      name: student.name,
+    };
+  }
+  return student;
+});
+
 //***** JSON(JavaScript Object Notation) *****
 //JSON.stringify() : 자바스크립트 객체 또는 배열을 JSON 문자열로 변환
 const json1 = JSON.stringify(arr1);
