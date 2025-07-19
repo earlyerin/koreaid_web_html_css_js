@@ -94,20 +94,18 @@ const products = [
   { id: 1, name: "노트북", price: 1200000, catefory: "전자제품" },
   { id: 2, name: "태블릿", price: 100000, catefory: "전자제품" },
   { id: 3, name: "컴퓨터", price: 800000, catefory: "전자제품" },
-  { id: 4, name: "책", price: 10000, catefory: "여가" },
-  { id: 4, name: "컵", price: 15000, catefory: "주방" },
+  { id: 4, name: "책", price: 10000, catefory: "여가용품" },
+  { id: 4, name: "컵", price: 15000, catefory: "주방용품" },
 ];
 //1
 const expensiveProducts = products.filter((product) => product.price >= 50000);
 console.log(expensiveProducts);
 //2
-const productNamesAndPrices = products.map((product) => {
-  product = {
-    name: product.name,
-    price: product.price,
-  };
-  return product;
-});
+const productNamesAndPrices = products.map((product) => ({
+  name: product.name,
+  price: product.price,
+  //(객체)=>({객체의 속성, 속성..})
+}));
 console.log(productNamesAndPrices);
 
 //3
@@ -116,8 +114,37 @@ const discountProducts = products
   .map((product) => {
     product = {
       ...product,
-      price: product.price - product.price / 10,
+      price: product.price * 0.9,
     };
     return product;
   });
 console.log(discountProducts);
+
+/**
+ * baseConfig를 생성
+ * theme는 "light"로 변경하고, padding: "20px" 속성을 새로 추가
+ * 객체 Spread 문법을 사용하여 newConfig 생성
+ */
+const baseConfig = {
+  theme: "dark",
+  fontSize: "16px",
+  language: "ko",
+};
+
+baseConfig.theme = "light";
+baseConfig.padding = "20px";
+console.log("baseConfig = ", baseConfig);
+
+const newConfig = {
+  ...baseConfig,
+};
+console.log("newConfig = ", newConfig);
+
+/**
+ * 배열 Spread 문법을 사용하여 배열 합치기
+ */
+const arr1 = [1, 2, 3];
+const arr2 = [4, 5];
+
+const newArray = [...arr1, ...arr2];
+console.log(newArray);
