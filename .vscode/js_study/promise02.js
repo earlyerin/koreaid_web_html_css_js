@@ -21,7 +21,7 @@ function getData() {
       }
     }, 500);
   });
-  return promise;
+  return promise; //생성된 프로미스 객체를 함수 반환값으로 얻어 사용하는 기법(프로미스 팩토리 함수)
 }
 
 //프로미스 체이닝

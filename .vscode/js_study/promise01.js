@@ -5,12 +5,20 @@
  *   state => 대기(pending): 초기 상태, 비동기 작업이 아직 완료되지 않은 상태
  *            result = undefined
  *         => 이행(fullfilled) : 비동기 작업이 성공적으로 완료된 상태
- *            result = 성공적으로 완료된 결과값
+ *            result = value(성공적으로 완료된 결과값)
  *         => 거부(rejected) : 비동기 작업이 실패한 상태
- *            result = 실패한 이유(에러)
+ *            result = error(실패한 이유)
  * - 프로미스 객체 생성 시 생성자의 인자로 콜백함수 전달 (executor, 객체 생성과 동시에 즉시 실행)
  *   executor의 인자 => resolve: 비동기 작업 성공 시 호출하는 함수
  *                   => reject: 비동기 작업 실패 시 호출하는 함수
+ *
+ * [한 눈에 보기!]
+ * new Promise(executor)
+ *
+ *      ┌──── resolve(value) ──── 상태: "pending" ──── reject(error) ─────┐
+ *      ↓   					            결과: undefined						              ↓
+ * 상태: "fulfilled"                        								       상태: "rejected"
+ * 결과: value                              								       결과: error
  */
 
 //서버에서 받아온 데이터
@@ -39,7 +47,7 @@ function getData() {
 }
 
 /**
- * 프로미스 객체의 함수(후속처리, 체이닝)
+ * 프로미스 핸들러(후속처리, 체이닝)
  * then() : 프로미스가 이행(fullfilled)되었을 때 수행할 코드
  *          (즉, resovle 함수가 실행되면 then 함수에서 후속처리, result를 전달)
  *

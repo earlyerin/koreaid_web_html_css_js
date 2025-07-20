@@ -51,9 +51,8 @@ function checkOut(cardNumber, product) {
 }
 
 //프로미스 체이닝
-const shop = login(serverDate);
-shop
-  .then((data) => {
+
+  login(serverDate).then((data) => {
     console.log(
       `로그인에 성공하였습니다. ${data.name}님! 반갑습니다. 상품 페이지로 이동합니다.`
     );
