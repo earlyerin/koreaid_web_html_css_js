@@ -22,7 +22,7 @@ function login(data) {
 
 //장바구니
 function addToCart(product) {
-  const promiseAddToCart = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (product) {
         resolve(product);
@@ -33,12 +33,11 @@ function addToCart(product) {
       resolve(product);
     }, 3000);
   });
-  return promiseAddToCart;
 }
 
 //결제
 function checkOut(cardNumber, product) {
-  const promiseCheckOut = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (cardNumber && product) {
         resolve(product);
@@ -47,12 +46,12 @@ function checkOut(cardNumber, product) {
       }
     }, 3000);
   });
-  return promiseCheckOut;
 }
 
 //프로미스 체이닝
-
-  login(serverDate).then((data) => {
+//프로미스 지옥(Promise hell)
+login(serverDate)
+  .then((data) => {
     console.log(
       `로그인에 성공하였습니다. ${data.name}님! 반갑습니다. 상품 페이지로 이동합니다.`
     );
