@@ -14,7 +14,8 @@ const d2 = document.getElementById("d2");
 console.log(d1);
 console.log(d2);
 
-const h3s = document.querySelectorAll("h3");
+//querySelector, querySelectorAll : CSS 모든 선택자 사용 가능
+const h3s = document.querySelectorAll("h3"); 
 console.log(h3s);
 
 const title2 = document.querySelector("#title"); //id 선택
@@ -52,7 +53,7 @@ const studentTrs = students.map((student, index) => {
     <td>${student.address}</td>
     </tr>`;
 });
-//join :
+//join([seperator(구분자)]) : 배열의 모든 요소를 연결하여 하나의 문자열로 반환
 studentTableTbody.innerHTML = studentTrs.join("");
 
 //스타일 적용
@@ -65,3 +66,6 @@ studentTable.id = "table-student";
 
 //클래스 부여
 studentTable.classList.add("student");
+
+//클래스 제거
+studentTable.classList.remove("student-table");
