@@ -1,4 +1,6 @@
-//
+/**
+ * 
+ */
 function handleDeleteButtonOnclick(studentId) {
   if (!confirm("삭제하시겠습니까?")) return; //삭제창에서 취소를 클릭한 경우
 

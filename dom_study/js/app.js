@@ -1,14 +1,16 @@
-//
+/**
+ * 
+ */
 let studentList = []; //전역으로 사용되는 상태 역할
 
-//전체 페이지의 메인 컴포넌트 역할
+//전체 페이지의 메인 모듈 역할
 function app() {
   const appInfo = {
     title: "Component Study",
 
     //toLocaleDateString => 현재 날짜를 지역 형식에 맞는 문자열로 반환
     date: new Date().toLocaleDateString(),
-    author: "rin",
+    author: "rin",  
   };
 
   return `

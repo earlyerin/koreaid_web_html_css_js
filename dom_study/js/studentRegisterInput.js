@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 function studentRegisterInput ({type, name, onkeyup}) {
     return `
         <div>
