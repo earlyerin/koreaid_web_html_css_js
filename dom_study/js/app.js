@@ -1,9 +1,8 @@
 /**
- * 
+ * 전체 웹페이지의 기본적인 틀
  */
-let studentList = []; //전역으로 사용되는 상태 역할
+let studentList = []; //전역으로 사용되는 배열(학생 목록)
 
-//전체 페이지의 메인 모듈 역할
 function app() {
   const appInfo = {
     title: "Component Study",
