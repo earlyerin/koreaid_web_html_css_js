@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f0f2f5;
+  text-align: center;
+}
+
+.container {
+  width: 500px;
+  margin-top: 50px;
+  padding: 30px 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 6px 20px 0px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  color: #799eff;
+  font-size: 2.2em;
+  /* em 
+  - 해당 요소의 부모 font-size에 대해 상대적으로 크기 지정 
+  - 부모의 font-size 상속(부모=10px/자식=1em,10px), 누적(부모=10px/자식=2em,20px)
+    *누적의 경우 최상위 요소부터 해당 요소까지의 font-size 곱으로 지정
+  - 컴포넌트 내부의 요소 간 상대적인 크기, padding, margin
+  */
+  /* rem
+  - 최상위 요소(html)의 font-size(default:16px)에 대해 상대적으로 크기 지정
+  - 중첩된 요소의 경우 크기 계산이 예측하기 쉽고 일관적인 속성
+  - html 태그의 font-size를 조절하면 모든 요소도 비례적으로 조정
+  - 전역적인 폰트 크기, 주요 레이아웃 요소의 크기(width, height), margin, padding
+  */
+  margin-bottom: 30px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  /* gap => 요소 간의 간격 */
+}
+
+#todo-input {
+  flex: auto;
+  outline: none;
+  /* outline => 해당 요소를 클릭했을 때 나타나는 테두리*/
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 12px 15px;
+  font-size: 1em;
+}
+
+::placeholder {
+  color: #ddd;
+}
+
+/* focus => 해당 요소를 마우스로 클릭했을 때 */
+#todo-input:focus {
+  border-color: #ffde63;
+  transition: border-color 0.5s ease;
+  /* transition => 요소의 속성에 대해 변 */
+}
+
+#add-todo-btn {
+  background-color: #ffde63;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 25px;
+  font-size: 1em;
+  color: #fff;
+  cursor: pointer;
+  /* cursor: pointer => 해당 요소에 마우스 focus 했을 때, 포인터 변경 */
+}
+
+/* hover => 해당 요소에 마우스가 올려진 상태 */
+#add-todo-btn:hover {
+  background-color: #ffbc4c;
+  transform: translateY(-2px);
+  transition: background-color 0.5s ease, transform 0.1s ease;
+}
+
+/* active => 해당 요소가 마우스로 누른 상태 */
+#add-todo-btn:active {
+    transform: translateY(0);
+}
