@@ -38,6 +38,7 @@ h1 {
   display: flex;
   gap: 10px;
   /* gap => 요소 간의 간격 */
+  margin-bottom: 25px;
 }
 
 #todo-input {
@@ -56,13 +57,13 @@ h1 {
 
 /* focus => 해당 요소를 마우스로 클릭했을 때 */
 #todo-input:focus {
-  border-color: #ffde63;
+  border-color: #799eff;
   transition: border-color 0.5s ease;
   /* transition => 요소의 속성에 대해 변 */
 }
 
 #add-todo-btn {
-  background-color: #ffde63;
+  background-color: #799eff;
   border: none;
   border-radius: 5px;
   padding: 12px 25px;
@@ -74,12 +75,103 @@ h1 {
 
 /* hover => 해당 요소에 마우스가 올려진 상태 */
 #add-todo-btn:hover {
-  background-color: #ffbc4c;
+  background-color: #678ce8;
   transform: translateY(-2px);
   transition: background-color 0.5s ease, transform 0.1s ease;
 }
 
 /* active => 해당 요소가 마우스로 누른 상태 */
 #add-todo-btn:active {
-    transform: translateY(0);
+  transform: translateY(0);
+}
+
+#todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#todo-list > li {
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+
+  font-size: 1em;
+  /* 16px */
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.08);
+}
+
+.edit-input {
+  flex-grow: 1;
+  gap: 10px;
+  padding: 8px 10px;
+  outline: none;
+  border: 1px solid #ffde63;
+  border-radius: 4px;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.todo-actions > button {
+  flex-shrink: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85em;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.todo-text {
+  line-height: 32px;
+  padding-right: 5px;
+  text-align: left;
+  word-break: break-all;
+}
+
+.edit-btn {
+  background-color: #ffde63;
+}
+
+.delete-btn {
+  background-color: #ffbc4c;
+}
+
+.edit-btn:hover {
+  background-color: #efcb4b;
+}
+
+.delete-btn:hover {
+  background-color: #de920f;
+}
+
+.edit-input:focus {
+  border-color: #ffbc4c;
+  transition: border-color 0.5s ease;
+}
+
+.save-btn {
+  background-color: #4caf50;
+}
+
+.cancel-btn {
+  background-color: #9e9e9e;
+}
+
+.save-btn:hover {
+  background-color: #43a047;
+}
+
+.cancel-btn:hover {
+  background-color: #757575;
 }
