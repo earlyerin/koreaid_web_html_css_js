@@ -42,7 +42,7 @@ async function getData() {
 
   } catch (error) {
     console.log("failed", error);
-    postContainer.innerHTML = /*html*/ `<p class="placeholder-text" style="color: red">데이터를 불러오는데 실패했습니다. <br/> ${error.message}</p>`;
+    postContainer.innerHTML = /*html*/ `<p class="placeholder-text" style="color: red">데이터를 불러오는데 실패했습니다.<br/>${error.message}</p>`;
     postContainer.style.borderColor = "#dc3545";
     postContainer.style.boxShadow = "0 0 0 2px rgba(220, 53, 69, 0.2)";
   }
