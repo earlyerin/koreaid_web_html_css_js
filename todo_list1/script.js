@@ -5,7 +5,7 @@ const todoList = document.querySelector("#todo-list");
 let todos = [];
 let nextTodoId = 1;
 
-//삽입
+//요소 삽입
 function renderTodo() {
   todoList.innerHTML = "";
 
@@ -99,14 +99,16 @@ todoList.addEventListener("click", (event) => {
     //클래스명이 edit-btn과 일치하면
     editTodo(todoId);
   } else if (target.classList.contains("save-btn")) {
+    //클래스명이 save-btn과 일치하면
     const editInput = listItem.querySelector(".edit-input"); //li 내 input 요소 저장
     saveTodo(todoId, editInput.value); //input value 전달
   } else if (target.classList.contains("cancel-btn")) {
+    //클래스명이 cancel-btn과 일치하면
     cancelTodo(todoId);
   }
 });
 
-//삭제
+//DELETE 버튼 클릭 시 작동할 함수
 function deleteTodo(id) {
   if (!confirm("정말 삭제하시겠습니까?")) return;
   else {
@@ -115,13 +117,14 @@ function deleteTodo(id) {
   }
 }
 
-//수정
+//EDIT 버튼 클릭 시 작동할 함수
 function editTodo(id) {
   todos = todos.map((todo) =>
     todo.id === id
       ? { ...todo, isEditing: true } //상태 변경
-      : { ...todo, isEditing: false }
+      : todo
   );
+  todos.map((todo) => console.log("isEditing : ", todo.isEditing));
   renderTodo();
 
   const editInput = todoList.querySelector(`li[data-id="${id}"] .edit-input`);
@@ -131,22 +134,22 @@ function editTodo(id) {
   }
 }
 
-//수정 후 저장
+//SAVE 버튼 클릭 시 작동할 함수
 function saveTodo(id, newText) {
   if (newText.trim() === "") {
     alert("There is no input value.");
     return;
   }
   todos = todos.map((todo) =>
-    todo.id === id
-      ? { ...todo, text: newText.trim(), isEditing: false }
-      : { ...todo }
+    todo.id === id ? { ...todo, text: newText.trim(), isEditing: false } : todo
   );
   renderTodo();
 }
 
-//수정 취소
+//CANCEL 버튼 클릭 시 작동할 함수
 function cancelTodo(id) {
-  if (todo.id === id) todos = { ...todos, isEditing: false };
+  todos = todos.map((todo) =>
+    todo.id === id ? { ...todo, isEditing: false } : todo
+  );
   renderTodo();
 }
