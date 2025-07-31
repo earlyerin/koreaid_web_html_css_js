@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <button id="nav-signin" class="btn">로그인</button>
+          <button id="nav-signup" class="btn">회원가입</button>
+          <button id="nav-board" class="btn">게시판</button>
+          <button id="nav-write" class="btn">글쓰기</button>
+        </nav>
+      </header>
+      <main>
+        <!-- 로그인 -->
+        <div id="page-signin" class="page active">
+          <h2>로그인</h2>
+          <form id="signin-form">
+            <input type="text" id="signin-id" placeholder="Username" />
+            <input
+              type="password"
+              id="signin-password"
+              placeholder="Password"
+            />
+            <button type="submit" class="btn-submit">Sign in</button>
+          </form>
+        </div>
+        <!-- 회원가입 -->
+        <div id="page-signup" class="page">
+          <h2>회원가입</h2>
+          <form id="signup-form">
+            <input type="text" id="signup-id" placeholder="Username" />
+            <input
+              type="password"
+              id="signup-password"
+              placeholder="Password"
+            />
+            <input type="email" id="signup-email" placeholder="Email" />
+            <button type="submit" class="btn-submit">Sign up</button>
+          </form>
+        </div>
+        <!-- 게시판 -->
+        <div id="page-board" class="page">게시판 페이지</div>
+        <!-- 글쓰기 -->
+        <div id="page-write" class="page">글쓰기 페이지</div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
