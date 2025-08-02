@@ -10,10 +10,20 @@ const pageBoardPost = document.querySelector("#page-board-post");
 
 //메뉴
 const menu = document.querySelector("#menu-container");
+const navSignin = document.querySelector("#nav-signin");
+const navSignup = document.querySelector("#nav-signup");
+const navBoard = document.querySelector("#nav-board");
+const navWrite = document.querySelector("#nav-write");
+const navSignout = document.querySelector("#nav-signout");
+const navUserName = document.querySelector(".menu-id");
 
 //로그인 및 회원가입 폼
 const signupForm = document.querySelector("#signup-form");
 const signinForm = document.querySelector("#signin-form");
+
+//아이디 및 비밀번호 찾기
+const findId = document.querySelector("#find-id");
+const findPassword = document.querySelector("#find-password");
 
 //게시글
 const postList = document.querySelector("#post-list");
@@ -21,42 +31,37 @@ const post = document.querySelector("#post");
 const writeForm = document.querySelector("#write-form");
 
 /** 이벤트 핸들링 */
+/**
+ * *** 동적 삽입 요소에 대한 이벤트 핸들러 사용 ***
+ * 초기 JS 실행 시점에 아직 HTML에 존재하지 않는 요소에는 직접적으로 이벤트 핸들러를 등록 불가
+ * 따라서 JS에서 동적으로 삽입하는 요소에 대해 이벤트 핸들링하기 위해서는
+ * 이미 HTML에 명시된 상위 요소에 대해 작성하며 익명함수를 통해 세부내용 구현
+ */
 //메뉴 버튼
-menu.addEventListener("click", (event) => {
-  const target = event.target;
-  if (target.id === "signout-btn") {
-    //로그아웃
-    signoutHandler();
-  } else if (target.id === "nav-signin") {
-    //로그인
-    changePage(pageSignin);
-  } else if (target.id === "nav-signup") {
-    //회원가입
-    changePage(pageSignup);
-  } else if (target.id === "nav-board") {
-    //게시판
-    renderBoard();
-  } else if (target.id === "nav-write") {
-    //글쓰기
-    const token = localStorage.getItem("AccessToken");
-    if (!token) {
-      alert("로그인이 필요합니다.");
-      changePage(pageSignin);
-      return;
-    }
-    changePage(pageWrite);
-  }
+navSignup.addEventListener("click", () => {
+  changePage(pageSignup);
 });
+navSignin.addEventListener("click", () => {
+  changePage(pageSignin);
+});
+navBoard.addEventListener("click", renderBoard);
+navWrite.addEventListener("click", () => {
+  const token = localStorage.getItem("AccessToken");
+  if (!token) {
+    alert("로그인이 필요합니다.");
+    changePage(pageSignin);
+    return;
+  }
+  changePage(pageWrite);
+});
+navSignout.addEventListener("click", signoutHandler);
 
 //회원가입 버튼
 signupForm.addEventListener("submit", signupHandler);
-
 //로그인 버튼
 signinForm.addEventListener("submit", signinHandler);
-
 //작성 완료 버튼
 writeForm.addEventListener("submit", addBoard);
-
 //게시글 상세 버튼
 postList.addEventListener("click", (event) => {
   const target = event.target;
@@ -70,7 +75,6 @@ postList.addEventListener("click", (event) => {
     }
   }
 });
-
 //게시글 목록 버튼
 post.addEventListener("click", (event) => {
   const target = event.target;
@@ -78,12 +82,30 @@ post.addEventListener("click", (event) => {
     renderBoard();
   }
 });
+
 /**
- * *** 동적 삽입 요소에 대한 이벤트 핸들러 사용 ***
- * 초기 JS 실행 시점에 아직 HTML에 존재하지 않는 요소에는 직접적으로 이벤트 핸들러를 등록 불가
- * 따라서 JS에서 동적으로 삽입하는 요소에 대해 이벤트 핸들링하기 위해서는
- * 이미 HTML에 명시된 상위 요소에 대해 작성하며 익명함수를 통해 세부내용 구현
+ * *** DOMContentLoaded ***
+ * HTML 문서의 로드 및 파싱이 완료되었을 때 이벤트 핸들링
+ * => 로컬 스토리지에 토큰이 있는 경우 (로그아웃하지 않았으며 토큰이 유효한 경우)
+ *    페이지 리로딩이나 재방문 시에 로그인된 사용자 화면 유지
  */
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("AccessToken");
+  if (token) {
+    //메뉴 전환
+    navSignin.style.display = "none";
+    navSignup.style.display = "none";
+    //사용자 아이디 삽입
+    const userName = await getUserName();
+    navUserName.textContent = `${userName}님`;
+    await renderBoard(); //token이 확인되었으므로 게시판 페이지로 전환
+  } else {
+    //token이 없을 경우
+    navUserName.style.display = "none";
+    navSignout.style.display = "none";
+    changePage(pageSignin);
+  }
+});
 
 /** 페이지 전환 함수 */
 function changePage(pageElement) {
@@ -92,32 +114,7 @@ function changePage(pageElement) {
     page.classList.remove("active");
   });
   pageElement.classList.add("active");
-}
-
-/** 로그인 전후 사용자 화면 전환 함수 */
-function changeHeader(userName) {
-  menu.innerHTML = "";
-  if (userName) {
-    menu.innerHTML =
-      /*html*/
-      `<nav>
-          <button id="nav-board" class="btn-menu">게시판</button>
-          <button id="nav-write" class="btn-menu">글쓰기</button>
-      </nav>
-      <div>
-       <span class="menu-id">${userName}님</span>
-        <button id="signout-btn" class="btn-menu">로그아웃</button>
-      </div>`;
-  } else {
-    menu.innerHTML =
-      /*html*/
-      `<nav>
-          <button id="nav-signin" class="btn-menu">로그인</button>
-          <button id="nav-signup" class="btn-menu">회원가입</button>
-          <button id="nav-board" class="btn-menu">게시판</button>
-          <button id="nav-write" class="btn-menu">글쓰기</button>
-      </nav>`;
-  }
+  window.scrollTo(0, 0); //스크롤 위치 초기화
 }
 
 /** 회원가입 요청 함수 */
@@ -152,7 +149,7 @@ async function signupHandler(event) {
     });
 
     //응답
-    const responseData = await response.json();
+    const responseData = await response.json(); //.json() => JSON 객체를 자바스크립트 객체로 변환
     if (responseData.status !== "success") {
       alert(responseData.message);
     } else {
@@ -203,10 +200,7 @@ async function signinHandler(event) {
       localStorage.setItem("AccessToken", responseData.data); //토큰을 로컬스토리지에 저장
       signinForm.reset();
 
-      changeHeader(signinData.userName); //로그인 사용자 화면으로 전환
-
-      changePage(pageBoard); //게시판 페이지로 전환
-      renderBoard();
+      location.reload();
     }
   } catch (error) {
     console.log("로그인 요청 오류 발생 : ", error);
@@ -214,11 +208,38 @@ async function signinHandler(event) {
   }
 }
 
+/** 사용자 아이디 요청 함수 */
+async function getUserName() {
+  const userInfo = getPayload(); //token 확인 후 payload 반환
+  try {
+    const token = localStorage.getItem("AccessToken");
+    const response = await fetch(`${API_BASE_URL}/auth/${userInfo.jti}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }); //payload의 userId를 이용해 getUserName
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      changePage(pageSignin);
+      return;
+    }
+    console.log(responseData.message);
+
+    return responseData.data; //사용자 아이디 반환
+  } catch (error) {
+    console.log("사용자 정보 확인 불가 : ", error);
+    alert("페이지 로딩 중 오류가 발생했습니다.");
+    signoutHandler();
+  }
+}
+
 /** 로그아웃 요청 함수 */
 function signoutHandler() {
-  changeHeader();
-  changePage(pageSignin);
   localStorage.removeItem("AccessToken"); //토큰 제거
+  location.reload();
 }
 
 /** 게시판 목록 조회 및 렌더링 함수*/
@@ -310,7 +331,6 @@ async function renderBoardPost(postId) {
 function getPayload() {
   const token = localStorage.getItem("AccessToken");
   if (!token) {
-    alert("로그인이 필요합니다.");
     changePage(pageSignin);
     return null;
   }
@@ -361,9 +381,13 @@ async function addBoard(event) {
     alert(responseData.message);
     writeForm.reset();
 
-    renderBoardPost(responseData.data); //해당 글 상세 페이지로 이동
+    await renderBoardPost(responseData.data); //해당 글 상세 페이지로 이동
   } catch (error) {
     console("글 추가 요청 오류 : ", error);
     alert("게시글 추가 중 오류가 발생했습니다.");
   }
 }
+
+/** 아이디 찾기 요청 함수 */
+
+/** 비밀번호 변경 요청 함수 */

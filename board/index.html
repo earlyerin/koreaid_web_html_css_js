@@ -15,10 +15,14 @@
           <button id="nav-board" class="btn-menu">게시판</button>
           <button id="nav-write" class="btn-menu">글쓰기</button>
         </nav>
+        <div>
+          <span class="menu-id"></span>
+          <button id="nav-signout" class="btn-menu">로그아웃</button>
+        </div>
       </header>
       <main>
         <!-- 로그인 -->
-        <div id="page-signin" class="page active">
+        <div id="page-signin" class="page">
           <h2>로그인</h2>
           <form id="signin-form">
             <input type="text" id="signin-id" placeholder="Username" />
@@ -28,6 +32,10 @@
               placeholder="Password"
             />
             <button type="submit" class="btn-submit">Sign in</button>
+            <div id="find-container">
+              <span id="find-id">아이디 찾기</span>|
+              <span id="find-password">비밀번호 찾기</span>
+            </div>
           </form>
         </div>
         <!-- 회원가입 -->
