@@ -1,7 +1,7 @@
 /**
  * async : 비동기 함수 정의 키워드, 해당 함수는 promise 객체를 반환
  * await : 비동기 함수 동기 호출 키워드,
- *         비동기 함수의 promise가 recolve될 때까지 기다렸다가 해당 결과를 변수에 할당
+ *         비동기 함수의 promise가 resolve될 때까지 기다렸다가 해당 결과를 변수에 할당
  *         (async 함수 내부 에서만 사용 가능)
  */
 
@@ -9,7 +9,7 @@ const promise = new Promise((resolve) => resolve("개발자"));
 
 //비동기 함수 정의
 async function getData() {
-  return promise; //어떤 반환값을 적더라도 이행(fulfilled) 상태의 프로미스 객체 형태로 반환(중첟X)
+  return promise; //어떤 반환값을 적더라도 이행(fulfilled) 상태의 프로미스 객체 형태로 반환(중첩X)
 }
 const user = getData();
 console.log(user);
