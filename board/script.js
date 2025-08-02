@@ -7,6 +7,9 @@ const pageSignup = document.querySelector("#page-signup");
 const pageBoard = document.querySelector("#page-board");
 const pageWrite = document.querySelector("#page-write");
 const pageBoardPost = document.querySelector("#page-board-post");
+const pageFindId = document.querySelector("#page-findid");
+const pageFindPassword = document.querySelector("#page-findpassword");
+const pageUser = document.querySelector("#page-user");
 
 //메뉴
 const menu = document.querySelector("#menu-container");
@@ -20,6 +23,8 @@ const navUserName = document.querySelector(".menu-id");
 //로그인 및 회원가입 폼
 const signupForm = document.querySelector("#signup-form");
 const signinForm = document.querySelector("#signin-form");
+const findIdForm = document.querySelector("#findid-form");
+const findPasswordForm = document.querySelector("#findipassword-form");
 
 //아이디 및 비밀번호 찾기
 const findId = document.querySelector("#find-id");
@@ -55,6 +60,7 @@ navWrite.addEventListener("click", () => {
   changePage(pageWrite);
 });
 navSignout.addEventListener("click", signoutHandler);
+navUserName.addEventListener("click", renderUserPage);
 
 //회원가입 버튼
 signupForm.addEventListener("submit", signupHandler);
@@ -67,7 +73,7 @@ postList.addEventListener("click", (event) => {
   const target = event.target;
   if (
     target.classList.contains("post-title") ||
-    target.classList.contains("detail-btn")
+    target.classList.contains("move-btn")
   ) {
     const postId = target.dataset.postId;
     if (postId) {
@@ -78,10 +84,22 @@ postList.addEventListener("click", (event) => {
 //게시글 목록 버튼
 post.addEventListener("click", (event) => {
   const target = event.target;
-  if (target.id === "back-btn") {
+  if (target.classList.contains("move-btn")) {
     renderBoard();
   }
 });
+
+//아이디 찾기
+findId.addEventListener("click", (event) => {
+  changePage(pageFindId);
+});
+findIdForm.addEventListener("submit", findUserId);
+
+// //비밀번호 찾기
+// findPassword.addEventListener("click", (event) => {
+//   changePage(pageFindPassword);
+// });
+// findPasswordForm.addEventListener("submit", );*****************************
 
 /**
  * *** DOMContentLoaded ***
@@ -96,8 +114,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     navSignin.style.display = "none";
     navSignup.style.display = "none";
     //사용자 아이디 삽입
-    const userName = await getUserName();
-    navUserName.textContent = `${userName}님`;
+    const user = await getUser();
+    navUserName.textContent = `${user.userName}님`;
     await renderBoard(); //token이 확인되었으므로 게시판 페이지로 전환
   } else {
     //token이 없을 경우
@@ -208,17 +226,21 @@ async function signinHandler(event) {
   }
 }
 
-/** 사용자 아이디 요청 함수 */
-async function getUserName() {
+/** 사용자 정보 요청 함수 */
+async function getUser() {
+  //페이지 상단에 사용자명 명시, 마이페이지에 정보 명시
   const userInfo = getPayload(); //token 확인 후 payload 반환
   try {
     const token = localStorage.getItem("AccessToken");
-    const response = await fetch(`${API_BASE_URL}/auth/${userInfo.jti}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }); //payload의 userId를 이용해 getUserName
+    const response = await fetch(
+      `${API_BASE_URL}/account/get/${userInfo.jti}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ); //payload의 userId를 이용해 getUser
     const responseData = await response.json();
 
     if (responseData.status !== "success") {
@@ -228,7 +250,7 @@ async function getUserName() {
     }
     console.log(responseData.message);
 
-    return responseData.data; //사용자 아이디 반환
+    return responseData.data; //사용자 정보 반환
   } catch (error) {
     console.log("사용자 정보 확인 불가 : ", error);
     alert("페이지 로딩 중 오류가 발생했습니다.");
@@ -240,6 +262,42 @@ async function getUserName() {
 function signoutHandler() {
   localStorage.removeItem("AccessToken"); //토큰 제거
   location.reload();
+}
+
+/** AccessToken 디코딩 함수 */
+function getPayload() {
+  //payload 내 id를 사용하기 위해 구현(게시글 추가 요청, 사용자 정보 요청)
+  const token = localStorage.getItem("AccessToken");
+  if (!token) {
+    changePage(pageSignin);
+    return null;
+  }
+
+  try {
+    const payloadBase64 = token.split(".")[1]; //토큰의 payload 부분
+    const decodedPayload = atob(payloadBase64); //디코딩
+    const payload = JSON.parse(decodedPayload);
+
+    return payload;
+  } catch (error) {
+    console.log("유효하지 않은 토큰입니다.", error);
+  }
+}
+
+/** 마이페이지 렌더링 함수 */
+async function renderUserPage() {
+  const userName = document.querySelector("#profile-id");
+  const email = document.querySelector("#profile-email");
+  const regDt = document.querySelector("#profile-reg-dt");
+  try {
+    const user = await getUser();
+    userName.innerHTML = /*html*/ `<i class="fa-regular fa-user"></i> ${user.userName}`;
+    email.innerHTML = /*html*/ `<i class="fa-regular fa-envelope"></i> ${user.userEmail}`;
+    regDt.innerHTML = /*html*/ `<i class="fa-regular fa-calendar"></i> ${formatDate(
+      user.regDt
+    )}`;
+    changePage(pageUser);
+  } catch (error) {}
 }
 
 /** 게시판 목록 조회 및 렌더링 함수*/
@@ -270,7 +328,7 @@ async function renderBoard() {
           /*html*/
           `<li>
             <span class="post-title" data-post-id="${post.boardId}">${post.title}</span>
-            <button class="detail-btn"  data-post-id="${post.boardId}">상세보기</button>
+            <button id="detail-btn" class="move-btn"  data-post-id="${post.boardId}">상세보기</button>
           </li>`;
       });
     }
@@ -299,15 +357,7 @@ async function renderBoardPost(postId) {
       alert(responseData.message);
       changePage(pageBoard);
     } else {
-      const formattedDate = new Intl.DateTimeFormat("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        hour12: false,
-      }).format(new Date(responseData.data.regDt));
-
+      const formattedDate = formatDate(responseData.data.regDt);
       post.innerHTML =
         /*html*/
         `<h3 id="post-title">${responseData.data.title}</h3>
@@ -317,32 +367,13 @@ async function renderBoardPost(postId) {
             | 작성일:  <span>${formattedDate}</span> 
          </p>
          <p id="post-content">${responseData.data.content}</p>
-         <button id="back-btn">← 목록으로 돌아가기</button>`;
+         <button id="back-btn" class="move-btn">← 목록으로 돌아가기</button>`;
 
       changePage(pageBoardPost);
     }
   } catch (error) {
     alert("게시물 목록을 불러오는데 실패했습니다.");
     changePage(pageBoard);
-  }
-}
-
-/** AccessToken 디코딩 함수 */
-function getPayload() {
-  const token = localStorage.getItem("AccessToken");
-  if (!token) {
-    changePage(pageSignin);
-    return null;
-  }
-
-  try {
-    const payloadBase64 = token.split(".")[1]; //토큰의 payload 부분
-    const decodedPayload = atob(payloadBase64); //디코딩
-    const payload = JSON.parse(decodedPayload);
-
-    return payload;
-  } catch (error) {
-    console.log("유효하지 않은 토큰입니다.", error);
   }
 }
 
@@ -389,5 +420,67 @@ async function addBoard(event) {
 }
 
 /** 아이디 찾기 요청 함수 */
+async function findUserId(event) {
+  event.preventDefault();
+
+  const emailInput = document.querySelector("#findid-email");
+  if (!emailInput) {
+    alert("이메일을 입력해 주세요.");
+    return;
+  }
+
+  const responseContainer = document.querySelector("#response-container");
+  const responseMessage = document.querySelector("#response-message");
+  const responseId = document.querySelector("#response-id");
+  const responseRegDt = document.querySelector("#response-reg-dt");
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/account/find/id/${emailInput.value}`,
+      {
+        method: "GET",
+      }
+    );
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      responseMessage.textContent = responseData.message;
+      responseMessage.style.color = "rgb(184, 81, 81)";
+      findIdForm.reset();
+      return;
+    }
+
+    findIdForm.reset();
+    responseContainer.style.backgroundColor = "#f3e2d4";
+    responseMessage.textContent = `고객님의 정보와 일치하는 아이디입니다.`;
+    responseId.textContent = `아이디: ${responseData.data.userName}`;
+    responseRegDt.textContent = `가입일시: ${formatDate(
+      responseData.data.regDt
+    )}`;
+  } catch (error) {
+    console.log("아이디 찾기 요청 오류 발생 : ", error);
+    alert("아이디 찾기 중 오류가 발생했습니다.");
+  }
+}
 
 /** 비밀번호 변경 요청 함수 */
+async function changePassword(event) {}
+
+/** 날짜 포맷 함수 */
+function formatDate(date) {
+  const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  }).format(new Date(date));
+  return formattedDate;
+}
+
+//비밀번호 변경
+//요청 보낼때 userId, oldPassword, newPassword body로 요청 보내기
+//accesstoken도 같이 헤더에 포함해서
+//새로운 비밀번호 입력은 두번 받아서 두개의 값이 같은지 확인 후 요청 처리
+//비밀번호가 변경되면 로그아웃 처리하고 로그인페이지로 전환

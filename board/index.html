@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div class="container">
@@ -37,6 +44,25 @@
               <span id="find-password">비밀번호 찾기</span>
             </div>
           </form>
+        </div>
+        <!-- 아이디 찾기 -->
+        <div id="page-findid" class="page">
+          <h2>아이디 찾기</h2>
+          <form id="findid-form">
+            <input type="email" id="findid-email" placeholder="Email" />
+            <button type="submit" class="btn-submit">인증</button>
+          </form>
+          <span id="response-message"></span>
+          <div id="response-container">
+            <span id="response-id"></span>
+            <br />
+            <span id="response-reg-dt"></span>
+          </div>
+        </div>
+        <!-- 비밀번호 찾기 -->
+        <div id="page-findpassword" class="page">
+          <h2>비밀번호 찾기</h2>
+          <form id="findipassword-form"></form>
         </div>
         <!-- 회원가입 -->
         <div id="page-signup" class="page">
@@ -83,9 +109,34 @@
             <button type="submit" class="btn-submit">작성 완료</button>
           </form>
         </div>
+        <!-- 마이페이지 -->
+        <div id="page-user" class="page">
+          <h2>마이페이지</h2>
+          <ul class="user-page-container">
+            <li class="user-page-title"><span>내프로필</span></li>
+            <li class="border-bottom margin-side">
+              <span id="profile-id"></span>
+              <button class="move-btn">수정</button>
+            </li>
+            <li class="border-bottom margin-side">
+              <span id="profile-email"></span>
+              <button class="move-btn">수정</button>
+            </li>
+            <li class="margin-side">
+              <span id="profile-reg-dt"></span>
+            </li>
+          </ul>
+          <ul class="user-page-container">
+            <li class="user-page-title"><span>보안설정</span></li>
+            <li class="margin-side">
+              <span>비밀번호</span>
+              <button class="move-btn">수정</button>
+            </li>
+          </ul>
+        </div>
+        <!-- 비밀번호 변경 -->
       </main>
     </div>
-
     <script src="script.js"></script>
   </body>
 </html>

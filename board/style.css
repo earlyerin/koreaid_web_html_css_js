@@ -41,6 +41,7 @@ nav {
 .menu-id {
   font-size: 0.8em;
   color: #f3e2d4;
+  cursor: pointer;
 }
 
 #nav-signout:hover {
@@ -114,6 +115,7 @@ textarea:focus {
   background-color: #17313e;
 }
 
+/* 아이디 및 비밀번호 찾기 관련 속성 */
 #find-container {
   display: flex;
   margin-top: 10px;
@@ -132,8 +134,38 @@ textarea:focus {
   text-decoration: underline;
 }
 
-#find-id {
+#findid-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
+
+#findid-form > * {
+  flex-grow: 1;
+  margin: 0;
+}
+
+#response-message {
+  color: #5e5c5b;
+  font-size: 0.9em;
+  margin-top: 30px;
+}
+
+#response-container {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 380px;
+  text-align: center;
+}
+
+#response-container > * {
+  color: #000;
+  font-weight: 500;
+  line-height: 30px;
+}
+
+/* ************** */
 
 /* 게시판 관련 속성 */
 .loading-message {
@@ -174,24 +206,17 @@ textarea:focus {
   text-decoration: underline;
 }
 
-.detail-btn {
-  background-color: #415e72;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 15px;
-  font-size: 0.9em;
-  cursor: pointer;
-}
-
-.detail-btn:hover {
-  background-color: #17313e;
+#detail-btn:hover {
   transform: translateY(-2px);
   transition: all 0.2s ease;
 }
 
-.detail-btn:active {
+#detail-btn:active {
   transform: translateY(0);
+}
+
+#back-btn {
+  margin-bottom: 22.4px;
 }
 
 .post-container {
@@ -226,9 +251,8 @@ textarea:focus {
   word-wrap: break-word;
 }
 
-#back-btn {
+.move-btn {
   padding: 10px;
-  margin-bottom: 10px;
   border: none;
   border-radius: 5px;
   background-color: #415e72;
@@ -237,7 +261,48 @@ textarea:focus {
   transition: all 0.3s ease;
 }
 
-#back-btn:hover {
+.move-btn:hover {
   background-color: #17313e;
 }
+/* ************** */
+
+/* 마이페이지 관련 속성 */
+.user-page-container {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  width: 500px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-page-container > li {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.user-page-container > li > button {
+  padding: 0px 10px;
+}
+
+.user-page-title {
+  background-color: #c5b0cd;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: bolder;
+  padding-left: 15px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ddd;
+}
+
+.margin-side{
+  margin: 0 15px;
+}
+
+
 /* ************** */
