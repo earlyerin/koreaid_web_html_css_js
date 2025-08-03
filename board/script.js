@@ -9,7 +9,11 @@ const pageWrite = document.querySelector("#page-write");
 const pageBoardPost = document.querySelector("#page-board-post");
 const pageFindId = document.querySelector("#page-findid");
 const pageFindPassword = document.querySelector("#page-findpassword");
+const pageVerifyTokenAndUpdatePassword = document.querySelector(
+  "#page-verify-token-and-update-password"
+);
 const pageUser = document.querySelector("#page-user");
+const pageSecurity = document.querySelector("#page-security");
 
 //메뉴
 const menu = document.querySelector("#menu-container");
@@ -23,17 +27,26 @@ const navUserName = document.querySelector(".menu-id");
 //로그인 및 회원가입 폼
 const signupForm = document.querySelector("#signup-form");
 const signinForm = document.querySelector("#signin-form");
-const findIdForm = document.querySelector("#findid-form");
-const findPasswordForm = document.querySelector("#findipassword-form");
 
 //아이디 및 비밀번호 찾기
-const findId = document.querySelector("#find-id");
-const findPassword = document.querySelector("#find-password");
+const findIdForm = document.querySelector("#findid-form");
+const findPasswordForm = document.querySelector("#findpassword-form");
+const updatePasswordForm = document.querySelector("#update-password-form");
+const Idfind = document.querySelector("#find-id");
+const Passwordfind = document.querySelector("#find-password");
 
 //게시글
 const postList = document.querySelector("#post-list");
 const post = document.querySelector("#post");
 const writeForm = document.querySelector("#write-form");
+
+//마이페이지 수정 버튼
+const editIdBtn = document.querySelector("#edit-id-btn");
+const editEmailBtn = document.querySelector("#edit-email-btn");
+const editPasswordBtn = document.querySelector("#edit-password-btn");
+
+//비밀번호 변경 폼
+const changePasswordForm = document.querySelector("#change-password-form");
 
 /** 이벤트 핸들링 */
 /**
@@ -90,16 +103,23 @@ post.addEventListener("click", (event) => {
 });
 
 //아이디 찾기
-findId.addEventListener("click", (event) => {
+Idfind.addEventListener("click", (event) => {
   changePage(pageFindId);
 });
 findIdForm.addEventListener("submit", findUserId);
 
-// //비밀번호 찾기
-// findPassword.addEventListener("click", (event) => {
-//   changePage(pageFindPassword);
-// });
-// findPasswordForm.addEventListener("submit", );*****************************
+//비밀번호 찾기
+Passwordfind.addEventListener("click", (event) => {
+  changePage(pageFindPassword);
+});
+findPasswordForm.addEventListener("submit", findPassword);
+updatePasswordForm.addEventListener("submit", verifyTokenAndUpdatePassword);
+
+//비밀번호 변경
+editPasswordBtn.addEventListener("click", () => {
+  changePage(pageSecurity);
+});
+changePasswordForm.addEventListener("submit", changePassword);
 
 /**
  * *** DOMContentLoaded ***
@@ -172,13 +192,14 @@ async function signupHandler(event) {
       alert(responseData.message);
     } else {
       alert(responseData.message);
-      signupForm.reset(); //입력 내용 초기화
       changePage(pageSignin); //로그인 페이지로 전환
     }
   } catch (error) {
     //요청 자체를 실패한 경우
     console.log("회원가입 요청 오류 발생 : ", error);
     alert("회원가입 중 오류가 발생했습니다.");
+  } finally {
+    signupForm.reset(); //입력 내용 초기화
   }
 }
 
@@ -213,16 +234,16 @@ async function signinHandler(event) {
     const responseData = await response.json();
     if (responseData.status !== "success") {
       alert(responseData.message);
+      signinForm.reset();
     } else {
       alert(responseData.message);
       localStorage.setItem("AccessToken", responseData.data); //토큰을 로컬스토리지에 저장
-      signinForm.reset();
-
       location.reload();
     }
   } catch (error) {
     console.log("로그인 요청 오류 발생 : ", error);
     alert("로그인 중 오류가 발생했습니다.");
+    signinForm.reset();
   }
 }
 
@@ -266,9 +287,12 @@ function signoutHandler() {
 
 /** AccessToken 디코딩 함수 */
 function getPayload() {
-  //payload 내 id를 사용하기 위해 구현(게시글 추가 요청, 사용자 정보 요청)
-  const token = localStorage.getItem("AccessToken");
-  if (!token) {
+  let token = "";
+  if (localStorage.getItem("findPasswordToken") !== null) {
+    token = localStorage.getItem("findPasswordToken");
+  } else if (localStorage.getItem("AccessToken") !== null) {
+    token = localStorage.getItem("AccessToken");
+  } else {
     changePage(pageSignin);
     return null;
   }
@@ -297,7 +321,10 @@ async function renderUserPage() {
       user.regDt
     )}`;
     changePage(pageUser);
-  } catch (error) {}
+  } catch (error) {
+    alert("마이페이지 불러오는데 실패했습니다.");
+    changePage(pageBoard);
+  }
 }
 
 /** 게시판 목록 조회 및 렌더링 함수*/
@@ -410,12 +437,11 @@ async function addBoard(event) {
     }
 
     alert(responseData.message);
-    writeForm.reset();
-
     await renderBoardPost(responseData.data); //해당 글 상세 페이지로 이동
   } catch (error) {
     console("글 추가 요청 오류 : ", error);
     alert("게시글 추가 중 오류가 발생했습니다.");
+    writeForm.reset();
   }
 }
 
@@ -446,11 +472,9 @@ async function findUserId(event) {
     if (responseData.status !== "success") {
       responseMessage.textContent = responseData.message;
       responseMessage.style.color = "rgb(184, 81, 81)";
-      findIdForm.reset();
       return;
     }
 
-    findIdForm.reset();
     responseContainer.style.backgroundColor = "#f3e2d4";
     responseMessage.textContent = `고객님의 정보와 일치하는 아이디입니다.`;
     responseId.textContent = `아이디: ${responseData.data.userName}`;
@@ -460,11 +484,204 @@ async function findUserId(event) {
   } catch (error) {
     console.log("아이디 찾기 요청 오류 발생 : ", error);
     alert("아이디 찾기 중 오류가 발생했습니다.");
+  } finally {
+    findIdForm.reset();
+  }
+}
+
+/** 비밀번호 찾기 요청 함수 */
+async function findPassword(event) {
+  event.preventDefault();
+
+  try {
+    //사용자 정보 확인
+    const usernameInput = document.querySelector("#findpassword-id");
+    const emailInput = document.querySelector("#findpassword-email");
+
+    const findPasswordData = {
+      userName: usernameInput.value,
+      userEmail: emailInput.value,
+    };
+
+    if (!findPasswordData.userName || !findPasswordData.userEmail) {
+      alert("모든 항목을 입력해 주세요.");
+      return;
+    }
+
+    const accessTokenResponse = await fetch(
+      `${API_BASE_URL}/account/find/password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(findPasswordData),
+      }
+    );
+    const accessTokenResponseData = await accessTokenResponse.json();
+
+    if (accessTokenResponseData.status !== "success") {
+      alert(accessTokenResponseData.message);
+      return;
+    }
+    const AccessToken = accessTokenResponseData.data;
+    localStorage.setItem("findPasswordToken", AccessToken);
+
+    //이메일 검증 메일 전송
+    const emailData = { userEmail: emailInput.value };
+    const mailResponse = await fetch(
+      `${API_BASE_URL}/mail/send/find/password`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AccessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      }
+    );
+    const mailResponseData = await mailResponse.json();
+
+    if (mailResponseData.status !== "success") {
+      alert(mailResponseData.message);
+      return;
+    }
+    alert(mailResponseData.message);
+    changePage(pageVerifyTokenAndUpdatePassword);
+  } catch (error) {
+    console.log("비밀번호 찾기 요청 오류 발생 : ", error);
+    alert("비밀번호 찾기 중 오류가 발생했습니다.");
+  } finally {
+    findPasswordForm.reset();
+  }
+}
+
+/** VerifyToken 인증 및 비밀번호 변경 요청 함수 */
+async function verifyTokenAndUpdatePassword(event) {
+  event.preventDefault();
+
+  const verifyTokenInput = document.querySelector("#verify-token");
+  const newPasswordInput = document.querySelector("#update-new-password");
+  const confirmPasswordInput = document.querySelector(
+    "#update-confirm-password"
+  );
+
+  if (
+    !verifyTokenInput.value ||
+    !newPasswordInput.value ||
+    !confirmPasswordInput.value
+  ) {
+    alert("모든 항목을 입력해 주세요.");
+    return;
+  }
+
+  try {
+    //VerifyToken 인증
+    const VerifyToken = verifyTokenInput.value;
+    const verifyTokenResponse = await fetch(
+      `${API_BASE_URL}/mail/verify/find/password/${VerifyToken}`,
+      {
+        method: "GET",
+      }
+    );
+    const verifyTokenResponseData = await verifyTokenResponse.json();
+
+    if (verifyTokenResponseData.status !== "success") {
+      alert(verifyTokenResponseData.message);
+      return;
+    }
+
+    //비밀번호 변경
+    const userInfo = getPayload();
+    const AccessToken = localStorage.getItem("findPasswordToken");
+    const updatePasswordData = {
+      userId: userInfo.jti,
+      newPassword: newPasswordInput.value,
+      checkPassword: confirmPasswordInput.value,
+    };
+    const updatePasswordResponse = await fetch(
+      `${API_BASE_URL}/account/update/password`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AccessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatePasswordData),
+      }
+    );
+    const updatePasswordResponseData = await updatePasswordResponse.json();
+
+    if (updatePasswordResponseData.status !== "success") {
+      alert(updatePasswordResponseData.message);
+      return;
+    }
+
+    alert(updatePasswordResponseData.message);
+    changePage(pageSignin);
+    localStorage.removeItem("findPasswordToken");
+  } catch (error) {
+    console.log("비밀번호 변경 요청 오류 발생 : ", error);
+    alert("비밀번호 변경 중 오류가 발생했습니다.");
+  } finally {
+    updatePasswordForm.reset();
   }
 }
 
 /** 비밀번호 변경 요청 함수 */
-async function changePassword(event) {}
+async function changePassword(event) {
+  event.preventDefault();
+
+  const userInfo = getPayload();
+  const oldPasswordInput = document.querySelector("#old-password");
+  const newPasswordInput = document.querySelector("#new-password");
+  const confirmPasswordInput = document.querySelector("#confirm-password");
+
+  const changePasswordData = {
+    userId: userInfo.jti,
+    oldPassword: oldPasswordInput.value,
+    newPassword: newPasswordInput.value,
+    checkPassword: confirmPasswordInput.value,
+  };
+
+  if (
+    !changePasswordData.oldPassword ||
+    !changePasswordData.newPassword ||
+    !changePasswordData.checkPassword
+  ) {
+    alert("모든 항목을 입력해 주세요.");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("AccessToken");
+    const response = await fetch(
+      `${API_BASE_URL}/account/change/password/authentication/user`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changePasswordData),
+      }
+    );
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      changePasswordForm.reset();
+      return;
+    }
+
+    alert(responseData.message);
+    signoutHandler(); //로그아웃 후 로그인 화면으로 전환
+  } catch (error) {
+    console.log("비밀번호 번경 요청 오류 발생 : ", error);
+    alert("비밀번호 번경 중 오류가 발생했습니다.");
+    changePasswordForm.reset();
+  }
+}
 
 /** 날짜 포맷 함수 */
 function formatDate(date) {
@@ -478,9 +695,3 @@ function formatDate(date) {
   }).format(new Date(date));
   return formattedDate;
 }
-
-//비밀번호 변경
-//요청 보낼때 userId, oldPassword, newPassword body로 요청 보내기
-//accesstoken도 같이 헤더에 포함해서
-//새로운 비밀번호 입력은 두번 받아서 두개의 값이 같은지 확인 후 요청 처리
-//비밀번호가 변경되면 로그아웃 처리하고 로그인페이지로 전환
