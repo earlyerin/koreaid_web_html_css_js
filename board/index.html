@@ -63,11 +63,10 @@
         <div id="page-findpassword" class="page">
           <h2>비밀번호 찾기</h2>
           <form id="findpassword-form">
-             <input type="text" id="findpassword-id" placeholder="Username" />
+            <input type="text" id="findpassword-id" placeholder="Username" />
             <input type="email" id="findpassword-email" placeholder="Email" />
             <button type="submit" class="btn-submit">인증메일받기</button>
           </form>
-          
         </div>
         <div id="page-verify-token-and-update-password" class="page">
           <h2>비밀번호 변경</h2>
@@ -115,7 +114,22 @@
         <div id="page-board-post" class="page">
           <h2>상세 게시물</h2>
           <div id="post" class="post-container">
-            <p class="loading-message">게시물 데이터 불러오는 중...</p>
+            <h3 id="post-title"></h3>
+            <p id="post-info"></p>
+            <p id="post-content"></p>
+            <div id="btn-container">
+              <button id="back-btn" class="move-btn">
+                ← 목록으로 돌아가기
+              </button>
+              <div id="btn-box" class="active">
+                <button id="edit-btn" class="post-common-btn move-btn">
+                  수정
+                </button>
+                <button id="delete-btn" class="post-common-btn move-btn">
+                  삭제
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <!-- 글쓰기 -->
@@ -180,6 +194,14 @@
               placeholder="Confirm New password"
             />
             <button type="submit" class="btn-submit">Update password</button>
+          </form>
+        </div>
+        <!-- 아이디 변경 -->
+        <div id="page-change-username" class="page">
+          <h2>아이디 변경</h2>
+          <form id="change-username-form">
+            <input type="text" id="new-id" placeholder="New username" />
+            <button type="submit" class="btn-submit">Update username</button>
           </form>
         </div>
       </main>

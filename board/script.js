@@ -13,6 +13,7 @@ const pageVerifyTokenAndUpdatePassword = document.querySelector(
   "#page-verify-token-and-update-password"
 );
 const pageUser = document.querySelector("#page-user");
+const pageChangeUsername = document.querySelector("#page-change-username");
 const pageSecurity = document.querySelector("#page-security");
 
 //메뉴
@@ -39,13 +40,22 @@ const Passwordfind = document.querySelector("#find-password");
 const postList = document.querySelector("#post-list");
 const post = document.querySelector("#post");
 const writeForm = document.querySelector("#write-form");
+const postTitle = document.querySelector("#post-title");
+const postInfo = document.querySelector("#post-info");
+const postContent = document.querySelector("#post-content");
+const postBtnContainer = document.querySelector("#btn-container");
+const postBtnBox = document.querySelector("#btn-box");
+// const postCommonBtn = document.querySelectorAll(".post-common-btn");
+const editBtn = document.querySelector("#edit-btn");
+const deleteBtn = document.querySelector("#delete-btn");
 
 //마이페이지 수정 버튼
 const editIdBtn = document.querySelector("#edit-id-btn");
 const editEmailBtn = document.querySelector("#edit-email-btn");
 const editPasswordBtn = document.querySelector("#edit-password-btn");
 
-//비밀번호 변경 폼
+//아이디 및 비밀번호 변경 폼
+const changeUsernameForm = document.querySelector("#change-username-form");
 const changePasswordForm = document.querySelector("#change-password-form");
 
 /** 이벤트 핸들링 */
@@ -102,6 +112,12 @@ post.addEventListener("click", (event) => {
   }
 });
 
+//게시글 수정 버튼
+// editBtn.addEventListener("click", );
+
+//게시글 삭제 버튼
+deleteBtn.addEventListener("click", removeBoard);
+
 //아이디 찾기
 Idfind.addEventListener("click", (event) => {
   changePage(pageFindId);
@@ -114,6 +130,12 @@ Passwordfind.addEventListener("click", (event) => {
 });
 findPasswordForm.addEventListener("submit", findPassword);
 updatePasswordForm.addEventListener("submit", verifyTokenAndUpdatePassword);
+
+//아이디 변경
+editIdBtn.addEventListener("click", () => {
+  changePage(pageChangeUsername);
+});
+changeUsernameForm.addEventListener("submit", changeUsername);
 
 //비밀번호 변경
 editPasswordBtn.addEventListener("click", () => {
@@ -370,7 +392,10 @@ async function renderBoard() {
 
 /** 게시판 상세 조회 및 렌더링 함수*/
 async function renderBoardPost(postId) {
+  postBtnBox.classList.remove("active"); //수정, 삭제 버튼 display: "none"
+
   try {
+    //게시물 단건 조회 요청
     const token = localStorage.getItem("AccessToken");
     const response = await fetch(`${API_BASE_URL}/board/${postId}`, {
       method: "GET",
@@ -379,26 +404,37 @@ async function renderBoardPost(postId) {
       },
     });
     const responseData = await response.json();
+    console.log("DB 데이터 아이디", responseData.data.userId);
 
     if (responseData.status !== "success") {
       alert(responseData.message);
       changePage(pageBoard);
     } else {
+      //조회된 게시물 삽입
       const formattedDate = formatDate(responseData.data.regDt);
-      post.innerHTML =
-        /*html*/
-        `<h3 id="post-title">${responseData.data.title}</h3>
-         <p id="post-info">
-            게시물 ID: <span>${responseData.data.boardId}</span> 
+      postTitle.innerText = responseData.data.title;
+      postInfo.innerHTML = /*html*/ `
+           게시물 ID: <span>${responseData.data.boardId}</span> 
             | 작성자: <span>${responseData.data.userName}</span> 
-            | 작성일:  <span>${formattedDate}</span> 
-         </p>
-         <p id="post-content">${responseData.data.content}</p>
-         <button id="back-btn" class="move-btn">← 목록으로 돌아가기</button>`;
+            | 작성일:  <span>${formattedDate}</span> `;
+      postContent.innerText = responseData.data.content;
+
+      //수정, 삭제 버튼 십입(사용자와 작성자가 일치하는 경우만)
+      const userInfo = getPayload();
+      const userId = parseInt(userInfo.jti);
+
+      if (responseData.data.userId == userId) {
+        postBtnBox.classList.add("active");
+      }
+
+      //버튼에 dataset 값으로 boardId 저장하여 게시물 수정, 삭제 요청 시 사용
+      editBtn.setAttribute("data-board-id", responseData.data.boardId);
+      deleteBtn.setAttribute("data-board-id", responseData.data.boardId);
 
       changePage(pageBoardPost);
     }
   } catch (error) {
+    console.log(error);
     alert("게시물 목록을 불러오는데 실패했습니다.");
     changePage(pageBoard);
   }
@@ -442,6 +478,33 @@ async function addBoard(event) {
     console("글 추가 요청 오류 : ", error);
     alert("게시글 추가 중 오류가 발생했습니다.");
     writeForm.reset();
+  }
+}
+
+/** 게시물 삭제 요청 함수 */
+async function removeBoard() {
+  const boardId = deleteBtn.dataset.boardId;
+  const token = localStorage.getItem("AccessToken");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/board/remove/${boardId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      return;
+    }
+
+    alert(responseData.message);
+    location.reload();
+  } catch (error) {
+    console("글 삭제 요청 오류 : ", error);
+    alert("게시글 삭제 중 오류가 발생했습니다.");
   }
 }
 
@@ -625,6 +688,53 @@ async function verifyTokenAndUpdatePassword(event) {
     alert("비밀번호 변경 중 오류가 발생했습니다.");
   } finally {
     updatePasswordForm.reset();
+  }
+}
+
+/** 아이디 변경 요청 함수 */
+async function changeUsername(event) {
+  event.preventDefault();
+
+  const userInfo = getPayload();
+  const newUsernameInput = document.querySelector("#new-id");
+
+  if (!newUsernameInput.value) {
+    alert("아이디를 입력해 주세요.");
+    return;
+  }
+
+  const changeUsernameData = {
+    userId: userInfo.jti,
+    userName: newUsernameInput.value,
+  };
+
+  try {
+    const token = localStorage.getItem("AccessToken");
+    const response = await fetch(
+      `${API_BASE_URL}/account/change/username/authentication/user`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changeUsernameData),
+      }
+    );
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      changeUsernameForm.reset();
+      return;
+    }
+
+    alert(responseData.message);
+    location.reload();
+  } catch (error) {
+    console.log("아이디 번경 요청 오류 발생 : ", error);
+    alert("아이디 번경 중 오류가 발생했습니다.");
+    changeUsernameForm.reset();
   }
 }
 
