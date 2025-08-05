@@ -118,7 +118,7 @@
             <p id="post-info"></p>
             <p id="post-content"></p>
             <div id="btn-container">
-              <button id="back-btn" class="move-btn">
+              <button id="back-btn" class="class-back-btn move-btn">
                 ← 목록으로 돌아가기
               </button>
               <div id="btn-box" class="active">
@@ -134,7 +134,7 @@
         </div>
         <!-- 글쓰기 -->
         <div id="page-write" class="page">
-          <h2>새 글 작성</h2>
+          <h2>글 작성</h2>
           <form id="write-form">
             <input
               type="text"
@@ -149,6 +149,15 @@
             <button type="submit" class="btn-submit">작성 완료</button>
           </form>
         </div>
+        <!-- 글 수정하기 -->
+        <div id="page-board-update" class="page">
+          <h2>글 수정</h2>
+          <form id="update-post-form">
+            <input type="text" id="update-title" />
+            <textarea id="update-content" rows="400px"></textarea>
+            <button type="submit" class="btn-submit">작성 완료</button>
+          </form>
+        </div>
         <!-- 마이페이지 -->
         <div id="page-user" class="page">
           <h2>마이페이지</h2>
@@ -160,7 +169,6 @@
             </li>
             <li class="border-bottom margin-side">
               <span id="profile-email"></span>
-              <button id="edit-email-btn" class="move-btn">수정</button>
             </li>
             <li class="margin-side">
               <span id="profile-reg-dt"></span>

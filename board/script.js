@@ -7,6 +7,7 @@ const pageSignup = document.querySelector("#page-signup");
 const pageBoard = document.querySelector("#page-board");
 const pageWrite = document.querySelector("#page-write");
 const pageBoardPost = document.querySelector("#page-board-post");
+const pageBoardUpdate = document.querySelector("#page-board-update");
 const pageFindId = document.querySelector("#page-findid");
 const pageFindPassword = document.querySelector("#page-findpassword");
 const pageVerifyTokenAndUpdatePassword = document.querySelector(
@@ -48,6 +49,9 @@ const postBtnBox = document.querySelector("#btn-box");
 // const postCommonBtn = document.querySelectorAll(".post-common-btn");
 const editBtn = document.querySelector("#edit-btn");
 const deleteBtn = document.querySelector("#delete-btn");
+const updatePostForm = document.querySelector("#update-post-form");
+const updateTitle = document.querySelector("#update-title");
+const updateContent = document.querySelector("#update-content");
 
 //마이페이지 수정 버튼
 const editIdBtn = document.querySelector("#edit-id-btn");
@@ -107,13 +111,14 @@ postList.addEventListener("click", (event) => {
 //게시글 목록 버튼
 post.addEventListener("click", (event) => {
   const target = event.target;
-  if (target.classList.contains("move-btn")) {
+  if (target.classList.contains("class-back-btn")) {
     renderBoard();
   }
 });
 
 //게시글 수정 버튼
-// editBtn.addEventListener("click", );
+editBtn.addEventListener("click", renderUpdatePage);
+updatePostForm.addEventListener("submit", updateBoard);
 
 //게시글 삭제 버튼
 deleteBtn.addEventListener("click", removeBoard);
@@ -404,7 +409,6 @@ async function renderBoardPost(postId) {
       },
     });
     const responseData = await response.json();
-    console.log("DB 데이터 아이디", responseData.data.userId);
 
     if (responseData.status !== "success") {
       alert(responseData.message);
@@ -435,7 +439,40 @@ async function renderBoardPost(postId) {
     }
   } catch (error) {
     console.log(error);
-    alert("게시물 목록을 불러오는데 실패했습니다.");
+    alert("게시물을 불러오는데 실패했습니다.");
+    changePage(pageBoard);
+  }
+}
+
+/** 게시물 수정 페이지 렌더링 함수*/
+async function renderUpdatePage(event) {
+  const boardId = event.target.dataset.boardId;
+
+  try {
+    //게시물 단건 조회 요청
+    const token = localStorage.getItem("AccessToken");
+    const response = await fetch(`${API_BASE_URL}/board/${boardId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      changePage(pageBoard);
+    } else {
+      //조회된 게시물 데이터를 수정 페이지에 삽입
+      updateTitle.setAttribute("value", responseData.data.title);
+      updateContent.innerText = responseData.data.content;
+
+      //수정 페이지로 전환
+      changePage(pageBoardUpdate);
+    }
+  } catch (error) {
+    console.log(error);
+    alert("게시물을 불러오는데 실패했습니다.");
     changePage(pageBoard);
   }
 }
@@ -506,6 +543,41 @@ async function removeBoard() {
     console("글 삭제 요청 오류 : ", error);
     alert("게시글 삭제 중 오류가 발생했습니다.");
   }
+}
+
+/** 게시글 수정 요청 함수 */
+async function updateBoard(event) {
+  event.preventDefault();
+
+  //수정 버튼 데이터셋에 저장된 boardId
+  const boardId = editBtn.dataset.boardId;
+
+  const updateBoardData = {
+    boardId: boardId,
+    title: updateTitle.value,
+    content: updateContent.value,
+  };
+
+  try {
+    const token = localStorage.getItem("AccessToken");
+    const response = await fetch(`${API_BASE_URL}/board/update`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateBoardData),
+    });
+    const responseData = await response.json();
+
+    if (responseData.status !== "success") {
+      alert(responseData.message);
+      return;
+    }
+
+    alert(responseData.message);
+    await renderBoardPost(responseData.data);
+  } catch (error) {}
 }
 
 /** 아이디 찾기 요청 함수 */
