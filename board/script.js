@@ -315,10 +315,10 @@ function signoutHandler() {
 /** AccessToken 디코딩 함수 */
 function getPayload() {
   let token = "";
-  if (localStorage.getItem("findPasswordToken") !== null) {
-    token = localStorage.getItem("findPasswordToken");
-  } else if (localStorage.getItem("AccessToken") !== null) {
+  if (localStorage.getItem("AccessToken") !== null) {
     token = localStorage.getItem("AccessToken");
+  } else if (localStorage.getItem("findPasswordToken") !== null) {
+    token = localStorage.getItem("findPasswordToken");
   } else {
     changePage(pageSignin);
     return null;
