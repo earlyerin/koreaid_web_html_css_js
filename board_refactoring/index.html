@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header id="menu-container">
+        <nav>
+          <button id="nav-signin" class="btn-menu">로그인</button>
+          <button id="nav-signup" class="btn-menu">회원가입</button>
+          <button id="nav-board" class="btn-menu">게시판</button>
+          <button id="nav-write" class="btn-menu">글쓰기</button>
+        </nav>
+        <div>
+          <span class="menu-id"></span>
+          <button id="nav-signout" class="btn-menu">로그아웃</button>
+        </div>
+      </header>
+      <main>
+        <!-- 로그인 -->
+        <div id="page-signin" class="page">
+          <h2>로그인</h2>
+          <form id="signin-form">
+            <input type="text" id="signin-id" placeholder="Username" />
+            <input
+              type="password"
+              id="signin-password"
+              placeholder="Password"
+            />
+            <button type="submit" class="btn-submit">Sign in</button>
+            <div id="find-container">
+              <span id="find-id">아이디 찾기</span>|
+              <span id="find-password">비밀번호 찾기</span>
+            </div>
+          </form>
+        </div>
+        <!-- 아이디 찾기 -->
+        <div id="page-findid" class="page">
+          <h2>아이디 찾기</h2>
+          <form id="findid-form">
+            <input type="email" id="findid-email" placeholder="Email" />
+            <button type="submit" class="btn-submit">인증</button>
+          </form>
+          <span id="response-message"></span>
+          <div id="response-container">
+            <span id="response-id"></span>
+            <br />
+            <span id="response-reg-dt"></span>
+          </div>
+        </div>
+        <!-- 비밀번호 찾기 -->
+        <div id="page-findpassword" class="page">
+          <h2>비밀번호 찾기</h2>
+          <form id="findpassword-form">
+            <input type="text" id="findpassword-id" placeholder="Username" />
+            <input type="email" id="findpassword-email" placeholder="Email" />
+            <button type="submit" class="btn-submit">인증메일받기</button>
+          </form>
+        </div>
+        <div id="page-verify-token-and-update-password" class="page">
+          <h2>비밀번호 변경</h2>
+          <form id="update-password-form">
+            <input
+              type="password"
+              id="verify-token"
+              placeholder="Verify token"
+            />
+            <input
+              type="password"
+              id="update-new-password"
+              placeholder="New password"
+            />
+            <input
+              type="password"
+              id="update-confirm-password"
+              placeholder="Confirm New password"
+            />
+            <button type="submit" class="btn-submit">Update password</button>
+          </form>
+        </div>
+        <!-- 회원가입 -->
+        <div id="page-signup" class="page">
+          <h2>회원가입</h2>
+          <form id="signup-form">
+            <input type="text" id="signup-id" placeholder="Username" />
+            <input
+              type="password"
+              id="signup-password"
+              placeholder="Password"
+            />
+            <input type="email" id="signup-email" placeholder="Email" />
+            <button type="submit" class="btn-submit">Sign up</button>
+          </form>
+        </div>
+        <!-- 게시판 목록-->
+        <div id="page-board" class="page">
+          <h2>전체 게시물</h2>
+          <ul id="post-list" class="list-container">
+            <p class="loading-message">게시물 데이터 불러오는 중...</p>
+          </ul>
+        </div>
+        <!-- 게시판 상세 -->
+        <div id="page-board-post" class="page">
+          <h2>상세 게시물</h2>
+          <div id="post" class="post-container">
+            <h3 id="post-title"></h3>
+            <p id="post-info"></p>
+            <p id="post-content"></p>
+            <div id="btn-container">
+              <button id="back-btn" class="class-back-btn move-btn">
+                ← 목록으로 돌아가기
+              </button>
+              <div id="btn-box" class="active">
+                <button id="edit-btn" class="post-common-btn move-btn">
+                  수정
+                </button>
+                <button id="delete-btn" class="post-common-btn move-btn">
+                  삭제
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 글쓰기 -->
+        <div id="page-write" class="page">
+          <h2>글 작성</h2>
+          <form id="write-form">
+            <input
+              type="text"
+              id="write-title"
+              placeholder="제목을 입력하세요."
+            />
+            <textarea
+              id="write-content"
+              placeholder="내용을 입력하세요."
+              rows="400px"
+            ></textarea>
+            <button type="submit" class="btn-submit">작성 완료</button>
+          </form>
+        </div>
+        <!-- 글 수정하기 -->
+        <div id="page-board-update" class="page">
+          <h2>글 수정</h2>
+          <form id="update-post-form">
+            <input type="text" id="update-title" />
+            <textarea id="update-content" rows="400px"></textarea>
+            <button type="submit" class="btn-submit">작성 완료</button>
+          </form>
+        </div>
+        <!-- 마이페이지 -->
+        <div id="page-user" class="page">
+          <h2>마이페이지</h2>
+          <ul class="user-page-container">
+            <li class="user-page-title"><span>내프로필</span></li>
+            <li class="border-bottom margin-side">
+              <span id="profile-id"></span>
+              <button id="edit-id-btn" class="move-btn">수정</button>
+            </li>
+            <li class="border-bottom margin-side">
+              <span id="profile-email"></span>
+            </li>
+            <li class="margin-side">
+              <span id="profile-reg-dt"></span>
+            </li>
+          </ul>
+          <ul class="user-page-container">
+            <li class="user-page-title"><span>보안설정</span></li>
+            <li class="margin-side">
+              <span>비밀번호</span>
+              <button id="edit-password-btn" class="move-btn">수정</button>
+            </li>
+          </ul>
+        </div>
+        <!-- 비밀번호 변경 -->
+        <div id="page-security" class="page">
+          <h2>비밀번호 변경</h2>
+          <form id="change-password-form">
+            <input
+              type="password"
+              id="old-password"
+              placeholder="Old password"
+            />
+            <input
+              type="password"
+              id="new-password"
+              placeholder="New password"
+            />
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Confirm New password"
+            />
+            <button type="submit" class="btn-submit">Update password</button>
+          </form>
+        </div>
+        <!-- 아이디 변경 -->
+        <div id="page-change-username" class="page">
+          <h2>아이디 변경</h2>
+          <form id="change-username-form">
+            <input type="text" id="new-id" placeholder="New username" />
+            <button type="submit" class="btn-submit">Update username</button>
+          </form>
+        </div>
+      </main>
+    </div>
+    <!-- 자바스크립트 파일 모듈화 -->
+    <!-- 1. DOM 요소들 정의 -->
+    <script src="js/dom.js"></script>
+    <!-- 2. 공통 유틸리티 함수 -->
+    <script src="js/util.js"></script>
+    <!-- 3. 인증 관련 처리 (유틸과 DOM에 의존) -->
+    <script src="js/auth.js"></script>
+    <!-- 4. 메인 로직 (다른 모든 모듈에 의존) -->
+    <script src="js/main.js"></script>
+  </body>
+</html>
