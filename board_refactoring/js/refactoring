@@ -1,0 +1,59 @@
+Refactoring(리팩토링)
+- 코드의 외부 동작(기능)은 그대로 유지하면서, 내부 구조를 개선하는 작업
+- 즉, 기능 변경없이 가독성(중복제거), 유지보수성을 높이기 위한 구조 변경을 의미
+
+[기존 방식]
+- 예시
+  📁 js/
+  ├── dom.js 전역 변수
+  ├── util.js getPayload(), formatDate() 등 공통 함수
+  ├── auth.js 로그인, 회원가입, 로그아웃, 토큰 관련 기능
+  ├── board.js 게시글 CRUD (작성, 목록, 상세, 수정, 삭제) 관련
+  ├── user.js 마이페이지, 유저 정보 조회/수정 기능
+  ├── password.js 비밀번호 찾기/변경 관련 기능
+  └── main.js DOMContentLoaded, 초기화, 페이지 라우팅 등 총괄
+
+- HTML 호출 예 (상단 파일에 하단 파일이 의존하므로 순서 유의)
+    <script src="/js/dom.js"></script>
+     <script src="/js/util.js"></script>
+     <script src="/js/auth.js"></script>
+     <script src="/js/board.js"></script>
+     <script src="/js/user.js"></script>
+     <script src="/js/password.js"></script>
+     <script src="/js/main.js"></script>
+
+[ES Modules 방식]
+- 분리된 각각의 파일(모듈, 하나의 라이브러리)의 함수를 export 지시자를 통해 함수를 공유하기
+- import 지시자를 통해 다른 모듈의 함수를 공유받기
+- HTML 호출 예 (type="module" 명시하기)
+    <script type="module" src="/js/fileName.js"></script>
+
+- 함수 예시
+  //fileName.js 파일에 함수 선언
+  export function functionName1(date) { ... }
+  export function functionName2(date) { ... }
+  export function functionName3(date) { ... }
+  //다른 파일에서 fileName.js 파일의 함수 호출
+  import { functionName1 } from 'fileName.js';
+  import { functionName2 } from 'fileName.js';
+  import { functionName2 } from 'fileName.js';
+
+- 변수 예시 (페이지 관련 요소를 하나의 객체로 공유)
+    //dom.js 파일에 변수 선언
+    export const Pages = {
+        signin: document.querySelector("#page-signin"),
+        signup: document.querySelector("#page-signup"),
+        board: document.querySelector("#page-board"),
+        write: document.querySelector("#page-write"),
+        post: document.querySelector("#page-board-post"),
+        update: document.querySelector("#page-board-update"),
+        findId: document.querySelector("#page-findid"),
+        findPassword: document.querySelector("#page-findpassword"),
+        verifyTokenAndUpdatePassword: document.querySelector("#page-verify-token-and-update-password"),
+        user: document.querySelector("#page-user"),
+        changeUsername: document.querySelector("#page-change-username"),
+        security: document.querySelector("#page-security"),
+    }
+    //다른 파일에서 dom.js 파일의 함수 호출
+    import { Pages } from 'dom.js';
+
